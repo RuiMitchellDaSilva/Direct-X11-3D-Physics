@@ -9,6 +9,11 @@
 #include "resource.h"
 #include "Camera.h"
 
+#include "IForceGenerator.h"
+#include "ReactionForceGenerator.h"
+#include "FrictionForceGenerator.h"
+#include "FluidDragForceGenerator.h"
+
 #include <vector>
 /*
 //#include <SpriteFont.h>
@@ -121,6 +126,14 @@ private:
 	ID3D11RasterizerState* CCWcullMode;
 	ID3D11RasterizerState* CWcullMode;
 
+	DWORD frameProcessingTime;
+	DWORD presetFrameInterval;
+
+
+	ReactionForceGenerator reactionForceGenerator;
+	FluidDragForceGenerator fluidDragForceGenerator;
+	FrictionForceGenerator frictionForceGenerator;
+
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
@@ -142,5 +155,6 @@ public:
 
 	void Update();
 	void Draw();
+	void GameLoopDelay(DWORD frameStartTime);
 };
 

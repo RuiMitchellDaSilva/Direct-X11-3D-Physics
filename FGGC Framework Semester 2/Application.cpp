@@ -72,6 +72,8 @@ Application::Application()
 
 	DSLessEqual = nullptr;
 	RSCullNone = nullptr;
+	presetFrameInterval = 0;
+
 }
 
 Application::~Application()
@@ -143,9 +145,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	GameObject * gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
 
-	gameObject->GetParticleModel()->SetPosition(0.0f, 0.0f, 0.0f);
-	gameObject->GetParticleModel()->SetScale(15.0f, 15.0f, 15.0f);
-	gameObject->GetParticleModel()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
+	gameObject->GetParticleModel()->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	gameObject->GetParticleModel()->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
+	gameObject->GetParticleModel()->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
 
 	gameObject->GetAppearence()->SetTextureRV(_pGroundTextureRV);
 
@@ -155,8 +157,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	{
 		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial);
 
-		gameObject->GetParticleModel()->SetScale(0.5f, 0.5f, 0.5f); 
-		gameObject->GetParticleModel()->SetPosition(-4.0f + (i * 2.0f), 0.5f, 10.0f);
+		gameObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
+		gameObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 9.0f, 10.0f);
+		gameObject->GetParticleModel()->SetRigid(false);
 
 		gameObject->GetAppearence()->SetTextureRV(_pTextureRV);
 
@@ -652,28 +655,40 @@ void Application::Cleanup()
 
 void Application::MoveObject(int objectNumber, XMFLOAT3 translation)
 {
-	XMFLOAT3 position = _gameObjects[objectNumber]->GetParticleModel()->GetPosition();
+	XMFLOAT3 position = _gameObjects[objectNumber]->GetParticleModel()->GetTransform()->GetPosition();
 	position.x += translation.x; position.y += translation.y; position.z += translation.z;
-	_gameObjects[objectNumber]->GetParticleModel()->SetPosition(position);
+	_gameObjects[objectNumber]->GetParticleModel()->GetTransform()->SetPosition(position);
+}
+
+void Application::GameLoopDelay(DWORD frameStartTime)
+{
+	frameProcessingTime = GetTickCount() - frameStartTime;
+
+	if (frameProcessingTime < presetFrameInterval)
+	{
+		Sleep(presetFrameInterval - frameProcessingTime);
+	}
+
+	presetFrameInterval = frameProcessingTime;
 }
 
 void Application::Update()
 {
-    // Update our time
-    static float timeSinceStart = 0.0f;
-    static DWORD dwTimeStart = 0;
+	// Update our time
+	static float timeSinceStart = 0.0f;
+	static DWORD dwTimeStart = 0;
 
-    DWORD dwTimeCur = GetTickCount();
+	DWORD dwTimeCur = GetTickCount();
 
-    if (dwTimeStart == 0)
-        dwTimeStart = dwTimeCur;
+	if (dwTimeStart == 0)
+		dwTimeStart = dwTimeCur;
 
 	timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
 
 	// Move gameobject
 	if (GetAsyncKeyState('1'))
 	{
-		MoveObject(1, {0.0f, 0.0f, -0.1f});
+		MoveObject(1, { 0.0f, 0.0f, -0.1f });
 	}
 
 	if (GetAsyncKeyState('2'))
@@ -712,9 +727,14 @@ void Application::Update()
 
 	// Update objects
 	for (auto gameObject : _gameObjects)
-	{
+	{		
+		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->IsRigid())
+			gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel()));
+
 		gameObject->Update(timeSinceStart);
 	}
+
+	GameLoopDelay(dwTimeCur);
 }
 
 void Application::Draw()
@@ -766,7 +786,7 @@ void Application::Draw()
 		cb.surface.SpecularMtrl = material.specular;
 
 		// Set world matrix
-		cb.World = XMMatrixTranspose(gameObject->GetParticleModel()->GetWorldMatrix());
+		cb.World = XMMatrixTranspose(gameObject->GetParticleModel()->GetTransform()->GetWorldMatrix());
 
 		// Set texture
 		if (gameObject->GetAppearence()->HasTexture())

@@ -2,7 +2,6 @@
 
 #include <directxmath.h>
 #include <d3d11_1.h>
-#include <string>
 
 #include "ParticleModel.h"
 #include "Appearence.h"
@@ -12,22 +11,23 @@ using namespace std;
 
 class GameObject
 {
-public:
-	GameObject(string type, Geometry geometry, Material material);
-	~GameObject();
+	private:
+		Transform* _transform;
+		ParticleModel* _model;
+		Appearence* _appearence;
 
-	ParticleModel* GetParticleModel() const { return _model; }
+		GameObject * _parent;
+	public:
+		GameObject(string type, Geometry geometry, Material material);
+		~GameObject();
 
-	Appearence* GetAppearence() const { return _appearence; }
+		ParticleModel* GetParticleModel() const { return _model; }
 
-	void SetParent(GameObject * parent) { _parent = parent; }
+		Appearence* GetAppearence() const { return _appearence; }
 
-	void Update(float t);
+		void SetParent(GameObject * parent) { _parent = parent; }
 
-private:
-	ParticleModel* _model;
-	Appearence* _appearence;
+		void Update(float t);
 
-	GameObject * _parent;
 };
 

@@ -18,6 +18,12 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{772b0928-4246-46bd-a70f-b739a5222fce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Forces">
+      <UniqueIdentifier>{c96fc131-1ab4-44bb-9566-2385e164c8aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Forces">
+      <UniqueIdentifier>{1c8b5fae-901a-45c5-ae01-77a3f6b14e6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -37,6 +43,21 @@
     </ClInclude>
     <ClInclude Include="Appearence.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="FrictionForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidDragForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="ReactionForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +79,18 @@
     </ClCompile>
     <ClCompile Include="Appearence.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrictionForceGenerator.cpp">
+      <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidDragForceGenerator.cpp">
+      <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="ReactionForceGenerator.cpp">
+      <Filter>Source Files\Forces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

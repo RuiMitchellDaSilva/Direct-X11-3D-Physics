@@ -40,7 +40,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
             theApp->Draw();
         }
 
-		Sleep(20);
+		Sleep(10);
     }
 
 	delete theApp;
