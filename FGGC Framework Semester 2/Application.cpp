@@ -48,6 +48,32 @@ bool Application::HandleKeyboard(MSG msg)
 		_cameraOrbitAngleXZ += _cameraSpeed;
 		return true;
 		break;
+
+	
+	case 0x57: // W key
+		controlObject->MoveObject(FORWARD);
+		return true;
+		break;
+	
+	case 0x41: // A key
+		controlObject->MoveObject(LEFT);
+		return true;
+		break;
+	
+	case 0x53: // S key
+		controlObject->MoveObject(BACKWARD);
+		return true;
+		break;
+	
+	case 0x44: // D key
+		controlObject->MoveObject(RIGHT);
+		return true;
+		break;
+
+	case VK_ESCAPE:
+		exit(0);
+		return true;
+		break;
 	}
 
 	return false;
@@ -144,27 +170,34 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specularPower = 0.0f;
 	
 	GameObject * gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
-
+	
 	gameObject->GetParticleModel()->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetParticleModel()->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetParticleModel()->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
-
+	
 	gameObject->GetAppearence()->SetTextureRV(_pGroundTextureRV);
-
+	
 	_gameObjects.push_back(gameObject);
-
+	
 	for (auto i = 0; i < 5; i++)
 	{
 		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial);
-
+	
 		gameObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 9.0f, 10.0f);
 		gameObject->GetParticleModel()->SetRigid(false);
-
+	
 		gameObject->GetAppearence()->SetTextureRV(_pTextureRV);
-
+	
 		_gameObjects.push_back(gameObject);
 	}
+
+	controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial);
+	controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
+	controlObject->GetParticleModel()->GetTransform()->SetPosition(-5.0f, 1.0f, 10.0f);
+	controlObject->GetParticleModel()->SetRigid(true);
+	controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
+	_gameObjects.push_back(controlObject);
 
 	return S_OK;
 }
@@ -730,6 +763,8 @@ void Application::Update()
 	{		
 		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->IsRigid())
 			gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel()));
+
+		gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel()));
 
 		gameObject->Update(timeSinceStart);
 	}

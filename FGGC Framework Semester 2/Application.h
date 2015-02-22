@@ -29,6 +29,7 @@
 #include "VertexTypes.h"
 */
 #include "GameObject.h"
+#include "ControllableObject.h"
 
 using namespace DirectX;
 
@@ -105,6 +106,8 @@ private:
 	Light basicLight;
 
 	vector<GameObject *> _gameObjects;
+
+	ControllableObject * controlObject;
 
 	Camera * _camera;
 	float _cameraOrbitRadius = 7.0f;

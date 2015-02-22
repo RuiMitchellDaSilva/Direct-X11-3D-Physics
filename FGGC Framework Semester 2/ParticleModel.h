@@ -18,6 +18,7 @@ class ParticleModel
 		float _mass; // Measured in kilograms (THIS MUST NEVER BE ZERO)
 		XMFLOAT3 _netForce;
 		bool _rigid = true;
+		float _collisionRadius;
 	public:
 		ParticleModel(Transform* transform, XMFLOAT3 velocity, XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce);
 		~ParticleModel();
@@ -42,6 +43,9 @@ class ParticleModel
 
 		void SetRigid(bool isObjectRigid) { _rigid = isObjectRigid; }
 		bool IsRigid() { return _rigid; }
+
+		bool CollisionCheck(XMFLOAT3 position, float radius);
+		float GetCollisionRadius() { return _collisionRadius; }
 
 		//void SlidingMotion();
 		//XMFLOAT3 SlidingForce(float angle, float coeff);

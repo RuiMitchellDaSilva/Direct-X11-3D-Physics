@@ -37,9 +37,11 @@ XMFLOAT3 ReactionForceGenerator::CalcVelocityChange(XMFLOAT3 velocity, float mas
 	// Acquire final velocity from momentum equation
 	XMFLOAT3 finalVelocity = {0.0f, 0.0f, 0.0f};
 
-	finalVelocity.x = impulse.x;
-	finalVelocity.y = impulse.y;
-	finalVelocity.z = impulse.z;
+
+	finalVelocity.y = -velocity.y;
+	
+	//finalVelocity.z = impulse.z; // Momentum - Impulse
+	//finalVelocity.x += 0.5 * mass * velocity.x * velocity.x; // Kinetic Energy
 
 	return finalVelocity;
 }

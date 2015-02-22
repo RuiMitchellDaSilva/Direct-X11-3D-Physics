@@ -59,6 +59,10 @@
     <ClInclude Include="ReactionForceGenerator.h">
       <Filter>Header Files\Forces</Filter>
     </ClInclude>
+    <ClInclude Include="XMFLOAT3methods.h" />
+    <ClInclude Include="ControllableObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -91,6 +95,10 @@
     </ClCompile>
     <ClCompile Include="ReactionForceGenerator.cpp">
       <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="XMFLOAT3methods.cpp" />
+    <ClCompile Include="ControllableObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

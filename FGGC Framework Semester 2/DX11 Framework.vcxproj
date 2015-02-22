@@ -373,6 +373,7 @@
     <ClCompile Include="Appearence.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ControllableObject.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="FluidDragForceGenerator.cpp" />
     <ClCompile Include="FrictionForceGenerator.cpp" />
@@ -381,6 +382,7 @@
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="ReactionForceGenerator.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="XMFLOAT3methods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="DX11 Framework.fx">
@@ -392,6 +394,7 @@
     <ClInclude Include="Appearence.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ControllableObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="FluidDragForceGenerator.h" />
     <ClInclude Include="FrictionForceGenerator.h" />
@@ -401,6 +404,7 @@
     <ClInclude Include="ReactionForceGenerator.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="XMFLOAT3methods.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>

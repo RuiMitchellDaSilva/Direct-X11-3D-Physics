@@ -3,6 +3,7 @@
 ParticleModel::ParticleModel(Transform* transform, XMFLOAT3 velocity,
 	XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce) : _transform(transform), _velocity(velocity), _acceleration(acceleration), _mass(mass), _netForce(netForce)
 {
+	_collisionRadius = 4.0f;
 	//SlidingMotion();
 }
 
@@ -27,19 +28,21 @@ void ParticleModel::MoveConstAccel(float t)
 
 void ParticleModel::Update(float t)
 {
-	UpdateNetForce();
 	UpdateAccel();
 
 	//MoveConstVel(t);
 	MoveConstAccel(t);
 	_transform->Update(t);
+	UpdateNetForce();
 }
 
 void ParticleModel::UpdateNetForce()
 {
 	// Calculate net external force
 
-
+	_netForce.x = 0.0f;
+	_netForce.y = 0.0f;
+	_netForce.z = 0.0f;
 }
 
 void ParticleModel::AddToNetForce(XMFLOAT3 netForce)
@@ -60,3 +63,22 @@ void ParticleModel::UpdateAccel()
 		_acceleration.y += -9.81 / 1000;
 }
 
+bool ParticleModel::CollisionCheck(XMFLOAT3 position, float radius)
+{
+	XMFLOAT3 displacement = {0.0f, 0.0f, 0.0f};
+
+	displacement.x = position.x - _transform->GetPosition().x;
+	displacement.y = position.y - _transform->GetPosition().y;
+	displacement.z = position.z - _transform->GetPosition().z;
+
+	float displaceMagnitude = sqrtf((displacement.x * displacement.x) + (displacement.y * displacement.y) + (displacement.z * displacement.z));
+	float sumOfRadii = radius + GetCollisionRadius();
+
+	if (displaceMagnitude > sumOfRadii)
+		return false;
+	else
+	{
+
+	}
+
+}
