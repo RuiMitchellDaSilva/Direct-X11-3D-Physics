@@ -1,1 +1,17 @@
-﻿  DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\FGGC Framework Semester 2\Debug\DX11 Framework.exe
+﻿  Application.cpp
+  ControllableObject.cpp
+  FluidDragForceGenerator.cpp
+c:\users\mizukami\desktop\fggc framework semester 2\fluiddragforcegenerator.cpp(20): warning C4100: 'angle' : unreferenced formal parameter
+  FrictionForceGenerator.cpp
+  GameObject.cpp
+c:\users\mizukami\desktop\fggc framework semester 2\gameobject.cpp(20): warning C4238: nonstandard extension used : class rvalue used as lvalue
+  Main.cpp
+  ParticleModel.cpp
+  ReactionForceGenerator.cpp
+c:\users\mizukami\desktop\fggc framework semester 2\reactionforcegenerator.cpp(35): warning C4100: 'impulse' : unreferenced formal parameter
+c:\users\mizukami\desktop\fggc framework semester 2\reactionforcegenerator.cpp(35): warning C4100: 'mass' : unreferenced formal parameter
+  XMFLOAT3methods.cpp
+  Generating Code...
+c:\users\mizukami\desktop\fggc framework semester 2\particlemodel.cpp(76): warning C4715: 'ParticleModel::CollisionCheck' : not all control paths return a value
+c:\users\mizukami\desktop\fggc framework semester 2\application.cpp(75): warning C4702: unreachable code
+  DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\FGGC Framework Semester 2\Debug\DX11 Framework.exe

@@ -5,6 +5,7 @@
 
 #include <string>
 #include "Transform.h"
+#include "XMFLOAT3methods.h"
 
 using namespace DirectX;
 using namespace std;
@@ -46,13 +47,6 @@ class ParticleModel
 
 		bool CollisionCheck(XMFLOAT3 position, float radius);
 		float GetCollisionRadius() { return _collisionRadius; }
-
-		//void SlidingMotion();
-		//XMFLOAT3 SlidingForce(float angle, float coeff);
-		//void WithinFluidMotion();
-		//XMFLOAT3 DragForce(XMFLOAT3 velocity, float coeff);
-		//XMFLOAT3 DragLamFlow(XMFLOAT3 velocity, float coeff);
-		//XMFLOAT3 DragTurbFlow(XMFLOAT3 velocity, float coeff);
 
 		//string GetType() const { return _type; }
 
