@@ -764,6 +764,13 @@ void Application::Update()
 		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->IsRigid())
 			gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel()));
 
+		for (auto collidableObjects : _gameObjects)
+		{
+			if (gameObject->GetParticleModel()->CollisionCheck(collidableObjects->GetParticleModel()->GetTransform()->GetPosition(),
+				collidableObjects->GetParticleModel()->GetCollisionRadius()))
+				int i = 0; // Change  to resolve collision
+		}
+
 		gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel()));
 
 		gameObject->Update(timeSinceStart);
