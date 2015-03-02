@@ -1,6 +1,6 @@
 #include "ControlCar.h"
 
-ControlCar::ControlCar(string type, Geometry geometry, Material material) : GameObject(type, geometry, material)
+ControlCar::ControlCar(string type, Geometry geometry, Material material, realValue mass) : GameObject(type, geometry, material, mass)
 {
 }
 

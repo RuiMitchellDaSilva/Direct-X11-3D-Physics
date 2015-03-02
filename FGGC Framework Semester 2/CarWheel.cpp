@@ -1,6 +1,6 @@
 #include "CarWheel.h"
 
-CarWheel::CarWheel(string type, Geometry geometry, Material material) : GameObject(type, geometry, material)
+CarWheel::CarWheel(string type, Geometry geometry, Material material, realValue mass) : GameObject(type, geometry, material, mass)
 {
 }
 

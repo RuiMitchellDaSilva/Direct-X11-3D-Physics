@@ -17,7 +17,7 @@ private:
 	double _steeringAngle;	// Front wheels only
 
 public:
-	CarWheel(string type, Geometry geometry, Material material);
+	CarWheel(string type, Geometry geometry, Material material, realValue mass);
 	~CarWheel();
 
 	void Update(float t);

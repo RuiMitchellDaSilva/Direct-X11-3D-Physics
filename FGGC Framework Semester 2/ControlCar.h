@@ -20,7 +20,7 @@ private:
 	double _steeringAngle;	// Front wheels only
 
 public:
-	ControlCar(string type, Geometry geometry, Material material);
+	ControlCar(string type, Geometry geometry, Material material, realValue mass);
 	~ControlCar();
 
 	void Update(float t);

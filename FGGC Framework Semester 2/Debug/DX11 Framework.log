@@ -1,3 +1,3 @@
-﻿  ForceRegistry.cpp
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\forceregistry.cpp(12): warning C4389: '!=' : signed/unsigned mismatch
+﻿  Application.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\application.cpp(75): warning C4702: unreachable code
   DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\Further-Games-and-Graphics-Concepts\2nd Semester\Direct-X11-3D-Physics\FGGC Framework Semester 2\Debug\DX11 Framework.exe

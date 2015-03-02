@@ -4,6 +4,7 @@
 #include <d3d11_1.h>
 
 #include "GameObject.h"
+#include "Structures.h"
 
 using namespace DirectX;
 using namespace std;
@@ -23,7 +24,7 @@ class ControllableObject : public GameObject
 private:
 
 public:
-	ControllableObject(string type, Geometry geometry, Material material);
+	ControllableObject(string type, Geometry geometry, Material material, realValue mass);
 	~ControllableObject();
 
 	void MoveObject(Movement moveCommand);

@@ -1,8 +1,9 @@
 #include "ParticleModel.h"
 
 ParticleModel::ParticleModel(Transform* transform, XMFLOAT3 velocity,
-	XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce) : _transform(transform), _velocity(velocity), _acceleration(acceleration), _mass(mass), _inverseMass(1 / mass), _netForce(netForce)
+	XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce) : _transform(transform), _velocity(velocity), _acceleration(acceleration), _netForce(netForce)
 {
+	SetMass(mass);
 	_collisionRadius = 0.5f;
 	//SlidingMotion();
 }
@@ -96,7 +97,11 @@ void ParticleModel::AngularVelocity()
 void ParticleModel::SetMass(float mass)
 { 
 	_mass = mass; 
-	_inverseMass = 1 / _mass;
+
+	if (mass > 0.0f)
+		_inverseMass = 1 / _mass;
+	else
+		_inverseMass = 0.0f;
 }
 
 bool ParticleModel::HasInfiniteMass()

@@ -169,7 +169,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	noSpecMaterial.specularPower = 0.0f;
 	
-	GameObject * gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
+	GameObject * gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial, 0.0f);
 	
 	gameObject->GetParticleModel()->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetParticleModel()->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
@@ -182,7 +182,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	for (auto i = 0; i < 5; i++)
 	{
-		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial);
+		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial, 10.0f);
 	
 		gameObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 9.0f, 10.0f);
@@ -193,7 +193,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(gameObject);
 	}
 
-	controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial);
+	controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial, 10.0f);
 	controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 	controlObject->GetParticleModel()->GetTransform()->SetPosition(-8.0f, 3.0f, 10.0f);
 	controlObject->GetParticleModel()->SetRigid(true);
@@ -789,8 +789,7 @@ void Application::Update()
 		//
 
 		// Gravity
-		if (!gameObject->GetParticleModel()->IsRigid())
-			gameObject->GetParticleModel()->AddToNetForce({0.0f, -0.0981, 0.0f});
+
 
 		gameObject->Update(timeSinceStart);
 	}
