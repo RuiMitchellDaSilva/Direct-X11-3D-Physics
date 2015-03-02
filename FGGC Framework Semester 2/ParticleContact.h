@@ -10,12 +10,14 @@ public:
 	ParticleModel * model[2];
 	realValue restitution;
 	XMFLOAT3 contactNormal;
-protected:
-	void Resolve(realValue t);
+	realValue penetration;
 	realValue CalculateSeperatingVelocity() const;
+	void Resolve(realValue t);
+
+protected:
+	
+	
 private:
 	void ResolveVelocity(realValue t);
-
 	void ResolveInterpenetration(realValue t);
-	realValue penetration;
 };

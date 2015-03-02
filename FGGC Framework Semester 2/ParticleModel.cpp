@@ -101,7 +101,7 @@ void ParticleModel::SetMass(float mass)
 
 bool ParticleModel::HasInfiniteMass()
 {
-	if (_mass >= FLT_MAX)
+	if (_mass <= 0.0f)
 		return true;
 	else
 		return false;

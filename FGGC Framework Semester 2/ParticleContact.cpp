@@ -11,7 +11,7 @@ realValue ParticleContact::CalculateSeperatingVelocity() const
 	XMFLOAT3 relativeVelocity = model[0]->GetVelocity();
 
 	if (model[1])
-		relativeVelocity -= model[1]->GetVelocity;
+		XMFLOAT3Methods::Subtraction(relativeVelocity, model[1]->GetVelocity());
 
 	// MAY NEED TO CHANGE
 	return XMFLOAT3Methods::ScalarAngleBetweenVectors(relativeVelocity, contactNormal);

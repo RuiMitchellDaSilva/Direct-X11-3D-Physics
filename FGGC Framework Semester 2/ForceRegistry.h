@@ -25,11 +25,8 @@ protected:
 	Registry registrations;
 
 public:
-	ForceRegistry();
-	~ForceRegistry();
-
 	void Add(ParticleModel * model, IForceGenerator * fg);
 	void Remove(ParticleModel * model, IForceGenerator * fg);
 	void Clear();
-	void UpdateForces(realValue t);
+	void CalculateForces(realValue t);
 };

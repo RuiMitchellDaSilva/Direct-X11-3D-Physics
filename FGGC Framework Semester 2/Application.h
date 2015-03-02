@@ -31,6 +31,7 @@
 */
 #include "GameObject.h"
 #include "ControllableObject.h"
+#include "ForceRegistry.h"
 
 using namespace DirectX;
 
@@ -132,6 +133,8 @@ private:
 
 	DWORD frameProcessingTime;
 	DWORD presetFrameInterval;
+
+	ForceRegistry * ForceRegister;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
