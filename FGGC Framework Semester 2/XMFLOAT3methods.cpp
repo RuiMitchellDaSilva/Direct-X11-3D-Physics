@@ -76,8 +76,48 @@ namespace XMFLOAT3Methods
 		return vector;
 	}
 
-	float VectorMagnitude(XMFLOAT3 vector)
+	realValue VectorMagnitude(XMFLOAT3 vector)
 	{
 		return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z));
+	}
+
+	realValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second)
+	{
+		return (first.x * second.x) + (first.y * second.y) + (first.z * second.z);
+	}
+
+	realValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
+	{
+		realValue scalarProduct = ScalarProduct(first, second);
+		realValue magnitudes = VectorMagnitude(first) * VectorMagnitude(second);
+		return (realValue)acos(scalarProduct / magnitudes);
+	}
+
+	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second)
+	{
+		XMFLOAT3 vector = { 0.0f, 0.0f, 0.0f };
+		vector.x = (first.y * second.z) - (first.z * second.y);
+		vector.y = (first.z * second.x) - (first.x * second.z);
+		vector.z = (first.x * second.y) - (first.y * second.x);
+
+		return vector;
+	}
+
+	realValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
+	{
+		//real scalarProduct = ScalarProduct(first, second);
+		//real magnitudes = VectorMagnitude(first) * VectorMagnitude(second);
+		//return (real)acos(scalarProduct / magnitudes);
+
+		return 0.0f;
+	}
+
+	XMFLOAT3 Invert(XMFLOAT3 vector)
+	{
+		vector.x = -vector.x;
+		vector.y = -vector.y;
+		vector.z = -vector.z;
+
+		return vector;
 	}
 }

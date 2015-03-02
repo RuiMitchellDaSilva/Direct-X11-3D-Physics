@@ -9,5 +9,6 @@ using namespace DirectX;
 
 class IForceGenerator
 {
-	virtual XMFLOAT3 CalculateForce(ParticleModel* model) = 0;
+public:
+	virtual void UpdateForce(ParticleModel* model, realValue t) = 0;
 };

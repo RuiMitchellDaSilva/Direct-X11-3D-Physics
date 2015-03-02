@@ -1,9 +1,9 @@
 #include "ParticleModel.h"
 
 ParticleModel::ParticleModel(Transform* transform, XMFLOAT3 velocity,
-	XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce) : _transform(transform), _velocity(velocity), _acceleration(acceleration), _mass(mass), _netForce(netForce)
+	XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce) : _transform(transform), _velocity(velocity), _acceleration(acceleration), _mass(mass), _inverseMass(1 / mass), _netForce(netForce)
 {
-	_collisionRadius = 4.0f;
+	_collisionRadius = 0.5f;
 	//SlidingMotion();
 }
 
@@ -23,15 +23,18 @@ void ParticleModel::MoveConstAccel(float t)
 	// calculated velocity ( V = V + (A * T))
 	_velocity = XMFLOAT3Methods::Addition(_velocity, XMFLOAT3Methods::MultiplicationByValue(_acceleration, t));
 
-
-
+	// Dampen the object (replace with drag force or not.
+	_velocity = XMFLOAT3Methods::MultiplicationByValue(_velocity, _damping);
 }
 
 void ParticleModel::Update(float t)
 {
+	_collisionRadius = 0.5 + XMFLOAT3Methods::VectorMagnitude(_velocity);
+
+	//_damping = pow(0.999, t);
+
 	UpdateAccel();
 
-	//MoveConstVel(t);
 	MoveConstAccel(t);
 	_transform->Update(t);
 	UpdateNetForce();
@@ -50,11 +53,11 @@ void ParticleModel::AddToNetForce(XMFLOAT3 netForce)
 
 void ParticleModel::UpdateAccel()
 {
-	// Calculate acceleration from the net external force
-	_acceleration = XMFLOAT3Methods::DivisionByValue(_netForce, _mass);
+	if (_inverseMass <= 0.0f)
+		return;
 
-	if (!_rigid)
-		_acceleration.y += -9.81 / 1000;
+	// Calculate acceleration from the net external force
+	_acceleration = XMFLOAT3Methods::MultiplicationByValue(_netForce, _inverseMass);
 }
 
 bool ParticleModel::CollisionCheck(XMFLOAT3 position, float radius)
@@ -74,3 +77,33 @@ bool ParticleModel::CollisionCheck(XMFLOAT3 position, float radius)
 	}
 
 }
+
+void ParticleModel::AngularVelocity()
+{
+	//feta(angle) = inverse of Inertia * torque;	// Torque : twisting force
+
+	//torque = Pf * force;	// Pf = point at which the force is being applied, relative to the origin of the object.
+
+	//torque = magnitude of torque * unit-length vector in the axis around which the torque applies
+
+	//Ia = sum of n (Mi * d(Pi->a)^2), intial 
+	//	n : number of particles, d : distance of particle 'i' from the axis from the axis of rotation
+	//	Ia : moment of inertia about the axis
+
+
+}
+
+void ParticleModel::SetMass(float mass)
+{ 
+	_mass = mass; 
+	_inverseMass = 1 / _mass;
+}
+
+bool ParticleModel::HasInfiniteMass()
+{
+	if (_mass >= FLT_MAX)
+		return true;
+	else
+		return false;
+}
+

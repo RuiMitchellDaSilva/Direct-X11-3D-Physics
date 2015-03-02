@@ -174,7 +174,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	gameObject->GetParticleModel()->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetParticleModel()->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetParticleModel()->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
-	
+	gameObject->GetParticleModel()->SetCollidability(false);
+
 	gameObject->GetAppearence()->SetTextureRV(_pGroundTextureRV);
 	
 	_gameObjects.push_back(gameObject);
@@ -194,7 +195,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial);
 	controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-	controlObject->GetParticleModel()->GetTransform()->SetPosition(-5.0f, 1.0f, 10.0f);
+	controlObject->GetParticleModel()->GetTransform()->SetPosition(-8.0f, 3.0f, 10.0f);
 	controlObject->GetParticleModel()->SetRigid(true);
 	controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(controlObject);
@@ -718,6 +719,9 @@ void Application::Update()
 
 	timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
 
+	// Check if time is running
+	//assert(timeSinceStart > 0.0f);
+
 	// Move gameobject
 	if (GetAsyncKeyState('1'))
 	{
@@ -761,17 +765,32 @@ void Application::Update()
 	// Update objects
 	for (auto gameObject : _gameObjects)
 	{		
-		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->IsRigid())
-			gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel()));
+		//if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y + gameObject->GetParticleModel()->GetVelocity().y <= 1.0f &&
+		//	!gameObject->GetParticleModel()->IsRigid())
+		//	gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart));
+		//
+		//if (gameObject->GetParticleModel()->GetCollidability())
+		//	for (auto collidableObject : _gameObjects)
+		//	{
+		//	// Check if the object is collidable, if it's not comparing to it's own coordinates, and check for the collision itself.
+		//	if (collidableObject->GetParticleModel()->GetCollidability() &&
+		//		collidableObject != gameObject &&
+		//		gameObject->GetParticleModel()->CollisionCheck(collidableObject->GetParticleModel()->GetTransform()->GetPosition(),
+		//		collidableObject->GetParticleModel()->GetCollisionRadius()))
+		//		{
+		//		// Now check if this collision has already occured
+		//			//if ()
+		//		collisionForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart);
+		//		}						
+		//	}
+		//
+		//
+		//	gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart));
+		//
 
-		for (auto collidableObjects : _gameObjects)
-		{
-			if (gameObject->GetParticleModel()->CollisionCheck(collidableObjects->GetParticleModel()->GetTransform()->GetPosition(),
-				collidableObjects->GetParticleModel()->GetCollisionRadius()))
-				int i = 0; // Change  to resolve collision
-		}
-
-		gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel()));
+		// Gravity
+		if (!gameObject->GetParticleModel()->IsRigid())
+			gameObject->GetParticleModel()->AddToNetForce({0.0f, -0.0981, 0.0f});
 
 		gameObject->Update(timeSinceStart);
 	}

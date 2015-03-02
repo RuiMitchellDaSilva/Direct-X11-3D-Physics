@@ -13,6 +13,7 @@
 #include "ReactionForceGenerator.h"
 #include "FrictionForceGenerator.h"
 #include "FluidDragForceGenerator.h"
+#include "CollisionForceGenerator.h"
 
 #include <vector>
 /*
@@ -131,11 +132,6 @@ private:
 
 	DWORD frameProcessingTime;
 	DWORD presetFrameInterval;
-
-
-	ReactionForceGenerator reactionForceGenerator;
-	FluidDragForceGenerator fluidDragForceGenerator;
-	FrictionForceGenerator frictionForceGenerator;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);

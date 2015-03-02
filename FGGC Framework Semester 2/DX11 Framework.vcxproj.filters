@@ -65,6 +65,27 @@
     <ClInclude Include="XMFLOAT3methods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CarWheel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceRegistry.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContact.h">
+      <Filter>Header Files\Forces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -103,6 +124,24 @@
     </ClCompile>
     <ClCompile Include="XMFLOAT3methods.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionForceGenerator.cpp">
+      <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlCar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CarWheel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ForceRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityForceGenerator.cpp">
+      <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContact.cpp">
+      <Filter>Source Files\Forces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

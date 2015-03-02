@@ -3,6 +3,7 @@
 #include <directxmath.h>
 #include <d3d11_1.h>
 
+#include "XMFLOAT3methods.h"
 #include "IForceGenerator.h"
 
 using namespace DirectX;
@@ -14,8 +15,8 @@ public :
 	ReactionForceGenerator();
 	~ReactionForceGenerator();
 
-	//XMFLOAT3 CalculateForce(float mass, XMFLOAT3 netForce)
-	XMFLOAT3 CalculateForce(ParticleModel* model);
-	XMFLOAT3 ReactionForceGenerator::ReactionForce(float mass, XMFLOAT3 netForce);
+	void CalculateForce(ParticleModel* model, realValue t);
+	//XMFLOAT3 CalculateForce(ParticleModel* model);
+	XMFLOAT3 ReactionForce(float mass, XMFLOAT3 netForce);
 	XMFLOAT3 CalcVelocityChange(XMFLOAT3 velocity, float mass, XMFLOAT3 impulse);
 };

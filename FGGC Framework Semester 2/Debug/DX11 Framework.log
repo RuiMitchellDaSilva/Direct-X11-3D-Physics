@@ -1,23 +1,7 @@
-﻿  Appearence.cpp
-  Application.cpp
-  Camera.cpp
-  ControllableObject.cpp
-  DDSTextureLoader.cpp
-  FluidDragForceGenerator.cpp
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\fluiddragforcegenerator.cpp(20): warning C4100: 'angle' : unreferenced formal parameter
-  FrictionForceGenerator.cpp
-  Main.cpp
-  GameObject.cpp
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\gameobject.cpp(20): warning C4238: nonstandard extension used : class rvalue used as lvalue
-  ParticleModel.cpp
-  ReactionForceGenerator.cpp
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\reactionforcegenerator.cpp(35): warning C4100: 'impulse' : unreferenced formal parameter
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\reactionforcegenerator.cpp(35): warning C4100: 'mass' : unreferenced formal parameter
-  Transform.cpp
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\transform.cpp(11): warning C4100: 't' : unreferenced formal parameter
-  XMFLOAT3methods.cpp
-  Generating Code...
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlemodel.cpp(76): warning C4715: 'ParticleModel::CollisionCheck' : not all control paths return a value
-c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\application.cpp(75): warning C4702: unreachable code
+﻿  CollisionForceGenerator.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\collisionforcegenerator.cpp(13): warning C4100: 't' : unreferenced formal parameter
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\collisionforcegenerator.cpp(13): warning C4100: 'model' : unreferenced formal parameter
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\collisionforcegenerator.cpp(37): warning C4189: 'mass1' : local variable is initialized but not referenced
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\collisionforcegenerator.cpp(38): warning C4189: 'mass2' : local variable is initialized but not referenced
 Appearence.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
   DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\Further-Games-and-Graphics-Concepts\2nd Semester\Direct-X11-3D-Physics\FGGC Framework Semester 2\Debug\DX11 Framework.exe
