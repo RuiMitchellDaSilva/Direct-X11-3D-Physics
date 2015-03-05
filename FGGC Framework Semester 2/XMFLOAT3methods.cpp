@@ -76,21 +76,21 @@ namespace XMFLOAT3Methods
 		return vector;
 	}
 
-	realValue VectorMagnitude(XMFLOAT3 vector)
+	RealValue VectorMagnitude(XMFLOAT3 vector)
 	{
 		return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z));
 	}
 
-	realValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second)
+	RealValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second)
 	{
 		return (first.x * second.x) + (first.y * second.y) + (first.z * second.z);
 	}
 
-	realValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
+	RealValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
 	{
-		realValue scalarProduct = ScalarProduct(first, second);
-		realValue magnitudes = VectorMagnitude(first) * VectorMagnitude(second);
-		return (realValue)acos(scalarProduct / magnitudes);
+		RealValue scalarProduct = ScalarProduct(first, second);
+		RealValue magnitudes = VectorMagnitude(first) * VectorMagnitude(second);
+		return (RealValue)acos(scalarProduct / magnitudes);
 	}
 
 	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second)
@@ -103,7 +103,7 @@ namespace XMFLOAT3Methods
 		return vector;
 	}
 
-	realValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
+	RealValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second)
 	{
 		//real scalarProduct = ScalarProduct(first, second);
 		//real magnitudes = VectorMagnitude(first) * VectorMagnitude(second);
@@ -119,5 +119,12 @@ namespace XMFLOAT3Methods
 		vector.z = -vector.z;
 
 		return vector;
+	}
+
+	XMFLOAT3 Normalize(XMFLOAT3 vector)
+	{
+		RealValue magnitude = VectorMagnitude(vector);
+
+		return DivisionByValue(vector, magnitude);
 	}
 }

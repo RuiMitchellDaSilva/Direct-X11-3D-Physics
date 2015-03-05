@@ -14,7 +14,7 @@ public:
 	FrictionForceGenerator();
 	~FrictionForceGenerator();
 
-	void CalculateForce(ParticleModel* model, realValue t);
+	void CalculateForce(ParticleModel* model, RealValue t);
 	//XMFLOAT3 CalculateForce(ParticleModel* model);
 	XMFLOAT3 FrictionForceGenerator::SlidingForce(float mass, float angle, float coeff);
 

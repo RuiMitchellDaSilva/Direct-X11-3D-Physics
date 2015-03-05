@@ -8,10 +8,12 @@
 class ParticleContactResolver
 {
 protected:
-	unsigned noOfIterations; // This decides how many iterations the resolver will do before stopping
-	unsigned iterationsUsed;
+	unsigned mNoOfIterations; // This decides how many iterations the resolver will do before stopping
+	unsigned mIterationsUsed;
 public:
 	ParticleContactResolver(unsigned noOfIterations);
-	void SetIterations(unsigned noOfIterations);
-	void ResolveContacts(ParticleContact * contactArray, unsigned numContacts, realValue t);
+	~ParticleContactResolver();
+
+	void SetIterations(unsigned noOfIterations){ mNoOfIterations = noOfIterations; }
+	void ResolveContacts(ParticleContact * contactArray, unsigned numContacts, RealValue t);
 };

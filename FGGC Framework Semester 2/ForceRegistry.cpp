@@ -1,35 +1,36 @@
 #include "ForceRegistry.h"
 
+ForceRegistry::ForceRegistry()
+{
+}
+
+ForceRegistry::~ForceRegistry()
+{
+}
+
 void ForceRegistry::Add(ParticleModel * model, IForceGenerator * fg)
 {
-	registrations.push_back({ model, fg });
+	ForceRegistration forceRegistry = { model, fg };
+
+	mRegistrations.push_back({ model, fg });
 }
 
 void ForceRegistry::Remove(ParticleModel * model, IForceGenerator * fg)
 {
-	int i = 0;
 
-	for (; i != registrations.size(); i++)
-	{
-		if (registrations.at(i).model == model && registrations.at(i).fg == fg)
-		{
-			registrations.erase(registrations.begin() + i);
-			return;
-		}
-	}
 }
 
 void ForceRegistry::Clear()
 {
-	registrations.clear();
+	//registrations.clear();
 }
 
 
-void ForceRegistry::CalculateForces(realValue t)
+void ForceRegistry::CalculateForces(RealValue t)
 {
-	Registry::iterator i = registrations.begin();
+	Registry::iterator i = mRegistrations.begin();
 
-	for (; i != registrations.end(); i++)
+	for (; i != mRegistrations.end(); i++)
 	{
 		i->fg->CalculateForce(i->model, t);
 	}

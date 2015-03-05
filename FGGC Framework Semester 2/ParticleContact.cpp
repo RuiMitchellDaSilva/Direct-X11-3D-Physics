@@ -1,94 +1,105 @@
 #include "ParticleContact.h"
 
-void ParticleContact::Resolve(realValue t)
+ParticleContact::ParticleContact()
+{
+}
+
+ParticleContact::~ParticleContact()
+{
+}
+
+void ParticleContact::SetModels(ParticleModel * model1, ParticleModel * model2)
+{
+	mModel[0] = model1;
+	mModel[1] = model2;
+}
+
+void ParticleContact::Resolve(RealValue t)
 {
 	ResolveVelocity(t);
 	ResolveInterpenetration(t);
 }
 
-realValue ParticleContact::CalculateSeperatingVelocity() const
+RealValue ParticleContact::CalculateSeperatingVelocity() const
 {
-	XMFLOAT3 relativeVelocity = model[0]->GetVelocity();
+	XMFLOAT3 relativeVelocity = mModel[0]->GetVelocity();
 
-	if (model[1])
-		XMFLOAT3Methods::Subtraction(relativeVelocity, model[1]->GetVelocity());
+	if (mModel[1])
+		XMFLOAT3Methods::Subtraction(relativeVelocity, mModel[1]->GetVelocity());
 
-	// MAY NEED TO CHANGE
-	return XMFLOAT3Methods::ScalarAngleBetweenVectors(relativeVelocity, contactNormal);
+	return XMFLOAT3Methods::ScalarProduct(relativeVelocity, mContactNormal);
 }
 
-void ParticleContact::ResolveVelocity(realValue t) // This works against movable and immovable objects (scenery).
+void ParticleContact::ResolveVelocity(RealValue t) // This works against movable and immovable objects (scenery).
 {
-	realValue seperatingVelocity = CalculateSeperatingVelocity();
+	RealValue seperatingVelocity = CalculateSeperatingVelocity();
 
 	// Check if it needs to be resolved
 	if (seperatingVelocity > 0.0f)	// If true then either seperating/stationary, so no impulse required.
 		return;
 
-	realValue newSeperateVelocity = -seperatingVelocity * restitution;
+	RealValue newSeperateVelocity = -seperatingVelocity * mRestitution;
 
 	// This is for the case that the object(s) are resting.
-	XMFLOAT3 accCausedVelocity = model[0]->GetAcceleration();
+	XMFLOAT3 accCausedVelocity = mModel[0]->GetAcceleration();
 
-	if (model[1])
-		accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, model[0]->GetAcceleration());
+	if (mModel[1])
+		accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, mModel[1]->GetAcceleration());
 
 	// MAY NEED TO CHANGE Pg 128
-	realValue accCausedSepVelocity = XMFLOAT3Methods::VectorMagnitude(XMFLOAT3Methods::Multiplication(accCausedVelocity, contactNormal)) * t;
+	RealValue accCausedSepVelocity = XMFLOAT3Methods::ScalarProduct(accCausedVelocity, mContactNormal) * t;
 
 	if (accCausedSepVelocity < 0.0f)
 	{
-		newSeperateVelocity += restitution * accCausedSepVelocity;
+		newSeperateVelocity += mRestitution * accCausedSepVelocity;
 
-		if (newSeperateVelocity < 0.0f)
+		if (newSeperateVelocity < 0.0f)	
 			newSeperateVelocity = 0.0f;
 	}
 
+	RealValue deltaVelocity = newSeperateVelocity - seperatingVelocity;
 
+	RealValue totalInverseMass = mModel[0]->GetInverseMass();
 
-	realValue deltaVelocity = newSeperateVelocity - seperatingVelocity;
-
-	realValue totalInverseMass = model[0]->GetInverseMass();
-
-	if (model[1])
-		totalInverseMass += model[1]->GetInverseMass();
+	if (mModel[1])
+		totalInverseMass += mModel[1]->GetInverseMass();
 
 	// If all particles have infinite mass, impulse won't effect.
 	if (totalInverseMass <= 0.0f)
 		return;
 
-	realValue impulse = deltaVelocity / totalInverseMass;
+	RealValue impulse = deltaVelocity / totalInverseMass;
 
-	XMFLOAT3 impulsePerIMass = XMFLOAT3Methods::MultiplicationByValue(contactNormal, impulse);
+	XMFLOAT3 impulsePerIMass = XMFLOAT3Methods::MultiplicationByValue(mContactNormal, impulse);
 
 	// Apply impulses
-	model[0]->SetVelocity(XMFLOAT3Methods::Addition(model[0]->GetVelocity(),
-		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, model[0]->GetInverseMass())));
+	mModel[0]->SetVelocity(XMFLOAT3Methods::Addition(mModel[0]->GetVelocity(),
+		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, mModel[0]->GetInverseMass())));
 
-	if (model[1])
-		model[1]->SetVelocity(XMFLOAT3Methods::Addition(model[1]->GetVelocity(),
-		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, model[1]->GetInverseMass())));
+	if (mModel[1])
+		mModel[1]->SetVelocity(XMFLOAT3Methods::Addition(mModel[1]->GetVelocity(),
+		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, mModel[1]->GetInverseMass())));
 }
 
-void ParticleContact::ResolveInterpenetration(realValue t)
+void ParticleContact::ResolveInterpenetration(RealValue t)
 {
-	if (penetration <= 0.0f)
+	if (mPenetration <= 0.0f)
 		return;
 
-	realValue totalInverseMass = model[0]->GetInverseMass();
+	RealValue totalInverseMass = mModel[0]->GetInverseMass();
 
-	if (model[1])
-		totalInverseMass += model[1]->GetInverseMass();
+	if (mModel[1])
+		totalInverseMass += mModel[1]->GetInverseMass();
 
 	if (totalInverseMass <= 0.0f)
 		return;
 
-	XMFLOAT3 movePerIMass = XMFLOAT3Methods::MultiplicationByValue(contactNormal, (penetration / totalInverseMass));
+	XMFLOAT3 movePerIMass = XMFLOAT3Methods::MultiplicationByValue(mContactNormal, (mPenetration / totalInverseMass));
 
-	model[0]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(model[0]->GetTransform()->GetPosition(),
-		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, model[0]->GetInverseMass()))));
+	mModel[0]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[0]->GetTransform()->GetPosition(),
+		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, mModel[0]->GetInverseMass()))));
 
-	if (model[1])
-		model[1]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(model[1]->GetTransform()->GetPosition(),
-		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, -model[1]->GetInverseMass())))); 
+	if (mModel[1])
+		mModel[1]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[1]->GetTransform()->GetPosition(),
+		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, -mModel[1]->GetInverseMass())))); 
 }

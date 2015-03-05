@@ -14,7 +14,7 @@ public:
 	CollisionForceGenerator();
 	~CollisionForceGenerator();
 
-	void CalculateForce(ParticleModel* model, realValue t);
+	void CalculateForce(ParticleModel* model, RealValue t);
 
 	void CollisionForce(ParticleModel* model1, ParticleModel* model2);
 	void CalcVelocityChange(ParticleModel* model1, ParticleModel* model2);

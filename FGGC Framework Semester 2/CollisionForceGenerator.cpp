@@ -10,7 +10,7 @@ CollisionForceGenerator::~CollisionForceGenerator()
 
 }
 
-void CollisionForceGenerator::CalculateForce(ParticleModel* model, realValue t)
+void CollisionForceGenerator::CalculateForce(ParticleModel* model, RealValue t)
 {
 	//CollisionForce(model1, model2);
 

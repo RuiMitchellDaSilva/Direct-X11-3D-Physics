@@ -77,9 +77,6 @@
     <ClInclude Include="Structures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ForceRegistry.h">
-      <Filter>Header Files\Forces</Filter>
-    </ClInclude>
     <ClInclude Include="GravityForceGenerator.h">
       <Filter>Header Files\Forces</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="ParticleContactResolver.h">
       <Filter>Header Files\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceRegistry.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,17 +7,22 @@
 class ParticleContact
 {
 public:
-	ParticleModel * model[2];
-	realValue restitution;
-	XMFLOAT3 contactNormal;
-	realValue penetration;
-	realValue CalculateSeperatingVelocity() const;
-	void Resolve(realValue t);
+	ParticleModel * mModel[2];
+	RealValue mRestitution = 1;	// 0 < e < 1
+	XMFLOAT3 mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, 1.0f, 0.0f));
+	RealValue mPenetration;
+
+	// Methods
+	ParticleContact();
+	~ParticleContact();
+
+	RealValue CalculateSeperatingVelocity() const;
+	void Resolve(RealValue t);
+	void SetModels(ParticleModel * model1, ParticleModel * model2);
 
 protected:
 	
-	
 private:
-	void ResolveVelocity(realValue t);
-	void ResolveInterpenetration(realValue t);
+	void ResolveVelocity(RealValue t);
+	void ResolveInterpenetration(RealValue t);
 };

@@ -20,12 +20,14 @@ namespace XMFLOAT3Methods
 
 	XMFLOAT3 ZeroVector(XMFLOAT3 vector);
 
-	realValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second);	// AKA Dot/Inner Product
-	realValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
+	RealValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second);	// AKA Dot/Inner Product
+	RealValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
 	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second);
-	realValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
+	RealValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
+
+	XMFLOAT3 Normalize(XMFLOAT3 vector);
 
 	XMFLOAT3 Invert(XMFLOAT3 vector);
 
-	realValue VectorMagnitude(XMFLOAT3 vector);
+	RealValue VectorMagnitude(XMFLOAT3 vector);
 };

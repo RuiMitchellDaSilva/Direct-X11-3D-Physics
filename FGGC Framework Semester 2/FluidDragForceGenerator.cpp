@@ -11,7 +11,7 @@ FluidDragForceGenerator::~FluidDragForceGenerator()
 }
 
 //XMFLOAT3 CalculateForce(XMFLOAT3 velocity, float angle, float coeff, FlowType flowType)
-void FluidDragForceGenerator::CalculateForce(ParticleModel* model, realValue t)
+void FluidDragForceGenerator::CalculateForce(ParticleModel* model, RealValue t)
 {
 	model->AddToNetForce(FluidDragForce(model->GetVelocity(), 0.0f, 0.25f, Laminar));
 	//return SlidingForce(mass, XM_PI / 2, 0.61);

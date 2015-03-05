@@ -21,7 +21,7 @@ public:
 	~FluidDragForceGenerator();
 
 	//XMFLOAT3 CalculateForce(XMFLOAT3 velocity, float angle, float coeff, FlowType flowType)
-	void CalculateForce(ParticleModel* model, realValue t);
+	void CalculateForce(ParticleModel* model, RealValue t);
 
 	XMFLOAT3 FluidDragForce(XMFLOAT3 velocity, float angle, float coeff, FlowType flowType);
 	XMFLOAT3 DragLamFlow(XMFLOAT3 velocity, float coeff);

@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string type, Geometry geometry, Material material, realValue mass)
+GameObject::GameObject(string type, Geometry geometry, Material material, RealValue mass)
 {
 	_parent = nullptr;
 	_transform = new Transform(XMFLOAT3(), XMFLOAT3(), XMFLOAT3(1.0f, 1.0f, 1.0f));

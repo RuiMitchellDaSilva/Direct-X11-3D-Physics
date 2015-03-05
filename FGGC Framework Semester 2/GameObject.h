@@ -18,7 +18,7 @@ class GameObject
 
 		GameObject * _parent;
 	public:
-		GameObject(string type, Geometry geometry, Material material, realValue mass);
+		GameObject(string type, Geometry geometry, Material material, RealValue mass);
 		~GameObject();
 
 		ParticleModel* GetParticleModel() const { return _model; }

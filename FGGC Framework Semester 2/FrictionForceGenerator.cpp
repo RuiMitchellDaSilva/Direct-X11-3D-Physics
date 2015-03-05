@@ -13,7 +13,7 @@ FrictionForceGenerator::~FrictionForceGenerator()
 //XMFLOAT3 CalculateForce(float mass, float angle, float coeff)
 
 
-void FrictionForceGenerator::CalculateForce(ParticleModel* model, realValue t)
+void FrictionForceGenerator::CalculateForce(ParticleModel* model, RealValue t)
 {
 	//SlidingForce(model->GetMass(), 0.0f, 0.0f);
 	//return SlidingForce(mass, XM_PI / 2, 0.61);

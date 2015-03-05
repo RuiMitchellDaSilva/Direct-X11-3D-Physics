@@ -10,5 +10,5 @@ using namespace DirectX;
 class IForceGenerator
 {
 public:
-	virtual void CalculateForce(ParticleModel* model, realValue t) = 0;
+	virtual void CalculateForce(ParticleModel* model, RealValue t) = 0;
 };

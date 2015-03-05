@@ -1,6 +1,6 @@
 #include "ControllableObject.h"
 
-ControllableObject::ControllableObject(string type, Geometry geometry, Material material, realValue mass) : GameObject(type, geometry, material, mass)
+ControllableObject::ControllableObject(string type, Geometry geometry, Material material, RealValue mass) : GameObject(type, geometry, material, mass)
 {
 }
 

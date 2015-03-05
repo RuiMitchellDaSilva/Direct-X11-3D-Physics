@@ -21,12 +21,15 @@ protected:
 		IForceGenerator * fg;
 	};
 
-	typedef std::vector<ForceRegistration> Registry;
-	Registry registrations;
+	typedef vector<ForceRegistration> Registry;
+	Registry mRegistrations;
 
 public:
+	ForceRegistry();
+	~ForceRegistry();
+
 	void Add(ParticleModel * model, IForceGenerator * fg);
 	void Remove(ParticleModel * model, IForceGenerator * fg);
 	void Clear();
-	void CalculateForces(realValue t);
+	void CalculateForces(RealValue t);
 };

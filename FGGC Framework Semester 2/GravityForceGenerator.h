@@ -12,11 +12,11 @@ using namespace DirectX;
 class GravityForceGenerator : public IForceGenerator
 {
 private:
-	XMFLOAT3 gravity;
+	XMFLOAT3 _mGravity;
 
 public:
-	GravityForceGenerator(const XMFLOAT3 &gravity);
+	GravityForceGenerator(XMFLOAT3 gravity);
 	~GravityForceGenerator();
 
-	virtual void CalculateForce(ParticleModel* model, realValue t);
+	virtual void CalculateForce(ParticleModel* model, RealValue t);
 };

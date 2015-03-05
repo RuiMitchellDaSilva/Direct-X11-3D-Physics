@@ -24,7 +24,7 @@ class ControllableObject : public GameObject
 private:
 
 public:
-	ControllableObject(string type, Geometry geometry, Material material, realValue mass);
+	ControllableObject(string type, Geometry geometry, Material material, RealValue mass);
 	~ControllableObject();
 
 	void MoveObject(Movement moveCommand);

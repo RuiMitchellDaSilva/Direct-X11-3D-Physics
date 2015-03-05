@@ -15,7 +15,7 @@ public :
 	ReactionForceGenerator();
 	~ReactionForceGenerator();
 
-	void CalculateForce(ParticleModel* model, realValue t);
+	void CalculateForce(ParticleModel* model, RealValue t);
 	//XMFLOAT3 CalculateForce(ParticleModel* model);
 	XMFLOAT3 ReactionForce(float mass, XMFLOAT3 netForce);
 	XMFLOAT3 CalcVelocityChange(XMFLOAT3 velocity, float mass, XMFLOAT3 impulse);

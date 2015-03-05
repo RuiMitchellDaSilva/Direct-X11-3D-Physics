@@ -1,32 +1,30 @@
 #include "ParticleContactResolver.h"
 
-ParticleContactResolver::ParticleContactResolver(unsigned noOfIterations)
+ParticleContactResolver::ParticleContactResolver(unsigned noOfIterations) : mNoOfIterations(noOfIterations)
 {
-
 }
 
-void ParticleContactResolver::SetIterations(unsigned noOfIterations)
+ParticleContactResolver::~ParticleContactResolver()
 {
-
 }
 
-void ParticleContactResolver::ResolveContacts(ParticleContact * contactArray, unsigned numContacts, realValue t)
+void ParticleContactResolver::ResolveContacts(ParticleContact * contactArray, unsigned numContacts, RealValue t)
 {
-	unsigned i = 0.0f; // Incase while loop ins't entered.
+	unsigned i = 0.0f; // Incase while loop isn't entered.
 
-	iterationsUsed = 0;
+	mIterationsUsed = 0;
 
-	while (iterationsUsed < noOfIterations)
+	while (mIterationsUsed < mNoOfIterations)
 	{
-		realValue max = (realValue)DBL_MAX;
+		RealValue max = (RealValue)DBL_MAX;
 
 		unsigned maxIndex = numContacts;
 
 		for (i = 0; i < numContacts; i++)
 		{
-			realValue seperatingVelocity = contactArray[i].CalculateSeperatingVelocity();
+			RealValue seperatingVelocity = contactArray[i].CalculateSeperatingVelocity();
 
-			if (seperatingVelocity < max && (seperatingVelocity < 0 || contactArray[i].penetration > 0))
+			if (seperatingVelocity < max && (seperatingVelocity < 0 || contactArray[i].mPenetration > 0))
 			{
 				max = seperatingVelocity;
 				maxIndex = i;
@@ -38,6 +36,6 @@ void ParticleContactResolver::ResolveContacts(ParticleContact * contactArray, un
 
 		contactArray[maxIndex].Resolve(t);
 
-		iterationsUsed++;
+		mIterationsUsed++;
 	}
 }

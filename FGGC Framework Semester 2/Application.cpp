@@ -51,22 +51,22 @@ bool Application::HandleKeyboard(MSG msg)
 
 	
 	case 0x57: // W key
-		controlObject->MoveObject(FORWARD);
+		_controlObject->MoveObject(FORWARD);
 		return true;
 		break;
 	
 	case 0x41: // A key
-		controlObject->MoveObject(LEFT);
+		_controlObject->MoveObject(LEFT);
 		return true;
 		break;
 	
 	case 0x53: // S key
-		controlObject->MoveObject(BACKWARD);
+		_controlObject->MoveObject(BACKWARD);
 		return true;
 		break;
 	
 	case 0x44: // D key
-		controlObject->MoveObject(RIGHT);
+		_controlObject->MoveObject(RIGHT);
 		return true;
 		break;
 
@@ -99,7 +99,6 @@ Application::Application()
 	DSLessEqual = nullptr;
 	RSCullNone = nullptr;
 	presetFrameInterval = 0;
-
 }
 
 Application::~Application()
@@ -193,12 +192,28 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(gameObject);
 	}
 
-	controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial, 10.0f);
-	controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-	controlObject->GetParticleModel()->GetTransform()->SetPosition(-8.0f, 3.0f, 10.0f);
-	controlObject->GetParticleModel()->SetRigid(true);
-	controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
-	_gameObjects.push_back(controlObject);
+
+	// Create and apply forces (gravity)
+	contact = new ParticleContact();
+	forceRegister = new ForceRegistry();
+
+	gravityForce = new GravityForceGenerator(XMFLOAT3(0.0f, -0.00981f, 0.0f));
+	airDragForce = new FluidDragForceGenerator();
+	reactionForce = new ReactionForceGenerator();
+
+	for (auto gameObject : _gameObjects)
+	{
+		forceRegister->Add(gameObject->GetParticleModel(), gravityForce);
+		forceRegister->Add(gameObject->GetParticleModel(), airDragForce);
+	}
+
+
+	_controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial, 10.0f);
+	_controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
+	_controlObject->GetParticleModel()->GetTransform()->SetPosition(-8.0f, 3.0f, 10.0f);
+	_controlObject->GetParticleModel()->SetRigid(true);
+	_controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
+	_gameObjects.push_back(_controlObject);
 
 	return S_OK;
 }
@@ -762,13 +777,12 @@ void Application::Update()
 	_camera->SetPosition(cameraPos);
 	_camera->Update();
 
+	forceRegister->CalculateForces(timeSinceStart);
+
 	// Update objects
 	for (auto gameObject : _gameObjects)
 	{		
-		//if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y + gameObject->GetParticleModel()->GetVelocity().y <= 1.0f &&
-		//	!gameObject->GetParticleModel()->IsRigid())
-		//	gameObject->GetParticleModel()->AddToNetForce(reactionForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart));
-		//
+		
 		//if (gameObject->GetParticleModel()->GetCollidability())
 		//	for (auto collidableObject : _gameObjects)
 		//	{
@@ -788,9 +802,16 @@ void Application::Update()
 		//	gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart));
 		//
 
-		// Gravity
+		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->HasInfiniteMass())
+		{
+			contact->SetModels(gameObject->GetParticleModel(), NULL);
+			contact->Resolve(timeSinceStart);
+			gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(gameObject->GetParticleModel()->GetNetForce(), -1));
+		}
 
+		XMFLOAT3 g = gameObject->GetParticleModel()->GetVelocity();
 
+		// Update all GameObjects
 		gameObject->Update(timeSinceStart);
 	}
 

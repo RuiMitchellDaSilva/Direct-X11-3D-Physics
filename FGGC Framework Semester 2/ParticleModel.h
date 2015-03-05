@@ -21,8 +21,8 @@ private:
 	Transform* _transform;
 	XMFLOAT3 _velocity;
 	XMFLOAT3 _acceleration;
-	realValue _mass; // Measured in kilograms (THIS MUST NEVER BE ZERO)
-	realValue _inverseMass;
+	RealValue _mass; // Measured in kilograms (THIS MUST NEVER BE ZERO)
+	RealValue _inverseMass;
 	XMFLOAT3 _netForce;
 	bool _rigid = true;
 	bool _collidability = true;
@@ -35,7 +35,7 @@ private:
 	XMFLOAT3 _rotation;
 	//Matrix4 _transformMatrix;
 
-	realValue _damping = 1.0f;
+	RealValue _damping = 1.0f;
 
 
 
@@ -55,7 +55,7 @@ public:
 
 	float GetMass() const { return _mass; }
 	void SetMass(float mass);
-	realValue GetInverseMass(){ return _inverseMass; }
+	RealValue GetInverseMass(){ return _inverseMass; }
 	bool HasInfiniteMass();
 
 	XMFLOAT3 GetNetForce() const { return _netForce; }

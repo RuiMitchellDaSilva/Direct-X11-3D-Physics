@@ -14,6 +14,7 @@
 #include "FrictionForceGenerator.h"
 #include "FluidDragForceGenerator.h"
 #include "CollisionForceGenerator.h"
+#include "GravityForceGenerator.h"
 
 #include <vector>
 /*
@@ -32,6 +33,7 @@
 #include "GameObject.h"
 #include "ControllableObject.h"
 #include "ForceRegistry.h"
+#include "ParticleContact.h"
 
 using namespace DirectX;
 
@@ -109,7 +111,7 @@ private:
 
 	vector<GameObject *> _gameObjects;
 
-	ControllableObject * controlObject;
+	ControllableObject * _controlObject;
 
 	Camera * _camera;
 	float _cameraOrbitRadius = 7.0f;
@@ -134,7 +136,17 @@ private:
 	DWORD frameProcessingTime;
 	DWORD presetFrameInterval;
 
-	ForceRegistry * ForceRegister;
+	//	Forces
+	ForceRegistry * forceRegister;
+
+	IForceGenerator * gravityForce;
+	IForceGenerator * airDragForce;
+	IForceGenerator * reactionForce;
+
+
+	//	Collisions
+	ParticleContact * contact;
+
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
