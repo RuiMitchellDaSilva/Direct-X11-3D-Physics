@@ -8,7 +8,7 @@ class ParticleContact
 {
 public:
 	ParticleModel * mModel[2];
-	RealValue mRestitution = 1;	// 0 < e < 1
+	RealValue mRestitution = 0.5;	// 0 < e < 1
 	XMFLOAT3 mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, 1.0f, 0.0f));
 	RealValue mPenetration;
 

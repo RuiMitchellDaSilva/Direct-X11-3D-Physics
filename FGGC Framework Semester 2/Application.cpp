@@ -208,9 +208,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 
-	_controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial, 10.0f);
+	_controlObject = new ControllableObject("Control Cube", cubeGeometry, shinyMaterial, 0.0f);
 	_controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-	_controlObject->GetParticleModel()->GetTransform()->SetPosition(-8.0f, 3.0f, 10.0f);
+	_controlObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f, 1.0f, 10.0f);
 	_controlObject->GetParticleModel()->SetRigid(true);
 	_controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
 	_gameObjects.push_back(_controlObject);
@@ -782,25 +782,39 @@ void Application::Update()
 	// Update objects
 	for (auto gameObject : _gameObjects)
 	{		
-		
-		//if (gameObject->GetParticleModel()->GetCollidability())
-		//	for (auto collidableObject : _gameObjects)
-		//	{
-		//	// Check if the object is collidable, if it's not comparing to it's own coordinates, and check for the collision itself.
-		//	if (collidableObject->GetParticleModel()->GetCollidability() &&
-		//		collidableObject != gameObject &&
-		//		gameObject->GetParticleModel()->CollisionCheck(collidableObject->GetParticleModel()->GetTransform()->GetPosition(),
-		//		collidableObject->GetParticleModel()->GetCollisionRadius()))
-		//		{
-		//		// Now check if this collision has already occured
-		//			//if ()
-		//		collisionForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart);
-		//		}						
-		//	}
-		//
-		//
-		//	gameObject->GetParticleModel()->AddToNetForce(fluidDragForceGenerator.CalculateForce(gameObject->GetParticleModel(), timeSinceStart));
-		//
+		// Check collision against other objects
+		if (!gameObject->GetParticleModel()->HasInfiniteMass())
+		{
+			for (auto collidableObject : _gameObjects)
+			{
+				if (collidableObject != gameObject)
+				{
+					XMFLOAT3 vectorTo = XMFLOAT3Methods::Subtraction(collidableObject->GetParticleModel()->GetTransform()->GetPosition(),
+						gameObject->GetParticleModel()->GetTransform()->GetPosition());
+
+					float combinedCollRadius = collidableObject->GetParticleModel()->GetCollisionRadius() + gameObject->GetParticleModel()->GetCollisionRadius();
+
+					// If distance between these objects is less than their collision radius, then an interception has occured.
+					if (XMFLOAT3Methods::VectorMagnitude(vectorTo) < combinedCollRadius)
+					{
+						// Check if the object has infinite mass (WILL NEED TO CHANGE WHEN COLLISION HAS EVOLVED)
+						if (!collidableObject->GetParticleModel()->HasInfiniteMass())
+						{
+							contact->SetModels(gameObject->GetParticleModel(), collidableObject->GetParticleModel());
+							contact->Resolve(timeSinceStart);
+							gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(gameObject->GetParticleModel()->GetNetForce(), -1));
+							collidableObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(collidableObject->GetParticleModel()->GetNetForce(), -1));
+						}
+						else
+						{
+							contact->SetModels(gameObject->GetParticleModel(), NULL);
+							contact->Resolve(timeSinceStart);
+							gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(gameObject->GetParticleModel()->GetNetForce(), -1));
+						}
+					}			
+				}
+			}
+		}
 
 		if (gameObject->GetParticleModel()->GetTransform()->GetPosition().y <= 1.0f && !gameObject->GetParticleModel()->HasInfiniteMass())
 		{
@@ -808,8 +822,6 @@ void Application::Update()
 			contact->Resolve(timeSinceStart);
 			gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(gameObject->GetParticleModel()->GetNetForce(), -1));
 		}
-
-		XMFLOAT3 g = gameObject->GetParticleModel()->GetVelocity();
 
 		// Update all GameObjects
 		gameObject->Update(timeSinceStart);

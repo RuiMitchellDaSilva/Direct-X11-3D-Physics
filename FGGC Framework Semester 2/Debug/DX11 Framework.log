@@ -1,3 +1,11 @@
 ﻿  Application.cpp
+  Main.cpp
+  ParticleContact.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlecontact.cpp(84): warning C4100: 't' : unreferenced formal parameter
+  ParticleContactResolver.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlecontactresolver.cpp(13): warning C4244: 'initializing' : conversion from 'float' to 'unsigned int', possible loss of data
+  Generating Code...
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlecontactresolver.cpp(19): warning C4756: overflow in constant arithmetic
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlecontactresolver.cpp(19): warning C4756: overflow in constant arithmetic
 c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\application.cpp(75): warning C4702: unreachable code
   DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\Further-Games-and-Graphics-Concepts\2nd Semester\Direct-X11-3D-Physics\FGGC Framework Semester 2\Debug\DX11 Framework.exe
