@@ -2,6 +2,8 @@
 
 ControlCar::ControlCar(string type, Geometry geometry, Material material, RealValue mass) : GameObject(type, geometry, material, mass)
 {
+	for (int i = 0; i < 4; i++)
+		_wheel[i] = new CarWheel("squareWheel", geometry, material, 1.0f, this, {0.0f, 0.0f, 0.0f});
 }
 
 ControlCar::~ControlCar()

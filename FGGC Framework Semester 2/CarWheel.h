@@ -17,7 +17,7 @@ private:
 	double _steeringAngle;	// Front wheels only
 
 public:
-	CarWheel(string type, Geometry geometry, Material material, RealValue mass);
+	CarWheel(string type, Geometry geometry, Material material, RealValue mass, GameObject * parent, XMFLOAT3 posOnCar);
 	~CarWheel();
 
 	void Update(float t);

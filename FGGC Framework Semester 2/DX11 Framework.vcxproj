@@ -378,6 +378,7 @@
     <ClCompile Include="ControlCar.cpp" />
     <ClCompile Include="ControllableObject.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="Firework.cpp" />
     <ClCompile Include="FluidDragForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="FrictionForceGenerator.cpp" />
@@ -406,6 +407,7 @@
     <ClInclude Include="ControlCar.h" />
     <ClInclude Include="ControllableObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Firework.h" />
     <ClInclude Include="FluidDragForceGenerator.h" />
     <ClInclude Include="FrictionForceGenerator.h" />
     <ClInclude Include="GameObject.h" />

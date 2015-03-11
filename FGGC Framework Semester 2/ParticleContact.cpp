@@ -8,10 +8,20 @@ ParticleContact::~ParticleContact()
 {
 }
 
-void ParticleContact::SetModels(ParticleModel * model1, ParticleModel * model2)
+void ParticleContact::SetModels(ParticleModel * model1, ParticleModel * model2, RealValue penetration)
 {
 	mModel[0] = model1;
 	mModel[1] = model2;
+
+	if (mModel[1])
+		if (mModel[1]->GetTransform()->GetPosition().y > mModel[0]->GetTransform()->GetPosition().y)
+			mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, -1.0f, 0.0f));
+		else
+			mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, 1.0f, 0.0f));
+	else
+		mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, 1.0f, 0.0f));
+
+	mPenetration = penetration;
 }
 
 void ParticleContact::Resolve(RealValue t)
@@ -24,8 +34,8 @@ RealValue ParticleContact::CalculateSeperatingVelocity() const
 {
 	XMFLOAT3 relativeVelocity = mModel[0]->GetVelocity();
 
-	if (mModel[1])
-		XMFLOAT3Methods::Subtraction(relativeVelocity, mModel[1]->GetVelocity());
+	if (mModel[1])	
+		relativeVelocity = XMFLOAT3Methods::Subtraction(relativeVelocity, mModel[1]->GetVelocity());
 
 	return XMFLOAT3Methods::ScalarProduct(relativeVelocity, mContactNormal);
 }
@@ -78,7 +88,7 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 
 	if (mModel[1])
 		mModel[1]->SetVelocity(XMFLOAT3Methods::Addition(mModel[1]->GetVelocity(),
-		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, mModel[1]->GetInverseMass())));
+		XMFLOAT3Methods::MultiplicationByValue(impulsePerIMass, -mModel[1]->GetInverseMass())));
 }
 
 void ParticleContact::ResolveInterpenetration(RealValue t)
@@ -96,10 +106,20 @@ void ParticleContact::ResolveInterpenetration(RealValue t)
 
 	XMFLOAT3 movePerIMass = XMFLOAT3Methods::MultiplicationByValue(mContactNormal, (mPenetration / totalInverseMass));
 
-	mModel[0]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[0]->GetTransform()->GetPosition(),
-		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, mModel[0]->GetInverseMass()))));
+	XMFLOAT3 modelOneMovement = XMFLOAT3Methods::MultiplicationByValue(movePerIMass, mModel[0]->GetInverseMass());
+
+	XMFLOAT3 modelTwoMovement = {0.0f, 0.0f, 0.0f};
 
 	if (mModel[1])
-		mModel[1]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[1]->GetTransform()->GetPosition(),
-		(XMFLOAT3Methods::MultiplicationByValue(movePerIMass, -mModel[1]->GetInverseMass())))); 
+		modelTwoMovement = XMFLOAT3Methods::MultiplicationByValue(movePerIMass, -mModel[1]->GetInverseMass());
+
+
+	mModel[0]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[0]->GetTransform()->GetPosition(), modelOneMovement));
+
+
+
+	if (mModel[1])
+		mModel[1]->GetTransform()->SetPosition(XMFLOAT3Methods::Addition(mModel[1]->GetTransform()->GetPosition(), modelTwoMovement));
+
+	mPenetration = 0.0f;
 }

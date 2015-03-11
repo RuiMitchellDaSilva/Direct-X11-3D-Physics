@@ -30,9 +30,9 @@ public:
 	Appearence(Geometry geometry, Material material);
 	~Appearence();
 
-	Geometry GetGeometryData() const { return _geometry; }
+	Geometry GetGeometryData() const { return _mGeometry; }
 
-	Material GetMaterial() const { return _material; }
+	Material GetMaterial() const { return _mMaterial; }
 
 	void SetTextureRV(ID3D11ShaderResourceView * textureRV) { _textureRV = textureRV; }
 	ID3D11ShaderResourceView * GetTextureRV() const { return _textureRV; }
@@ -41,7 +41,7 @@ public:
 	void Draw(ID3D11DeviceContext * pImmediateContext);
 
 private:
-	Geometry _geometry;
-	Material _material;
+	Geometry _mGeometry;
+	Material _mMaterial;
 	ID3D11ShaderResourceView * _textureRV;
 };

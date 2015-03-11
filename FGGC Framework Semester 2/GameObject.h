@@ -11,23 +11,25 @@ using namespace std;
 
 class GameObject
 {
-	private:
-		Transform* _transform;
-		ParticleModel* _model;
-		Appearence* _appearence;
+private:
+	GameObject * _parent;
 
-		GameObject * _parent;
-	public:
-		GameObject(string type, Geometry geometry, Material material, RealValue mass);
-		~GameObject();
+protected:
+	Transform* _transform;
+	ParticleModel* _model;
+	Appearence* _appearence;
 
-		ParticleModel* GetParticleModel() const { return _model; }
+public:
+	GameObject(string type, Geometry geometry, Material material, RealValue mass);
+	~GameObject();
 
-		Appearence* GetAppearence() const { return _appearence; }
+	ParticleModel* GetParticleModel() const { return _model; }
 
-		void SetParent(GameObject * parent) { _parent = parent; }
+	Appearence* GetAppearence() const { return _appearence; }
 
-		void Update(float t);
+	void SetParent(GameObject * parent) { _parent = parent; }
+
+	void Update(float t);
 
 };
 

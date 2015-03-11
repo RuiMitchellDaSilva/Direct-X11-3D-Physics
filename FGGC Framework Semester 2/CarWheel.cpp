@@ -1,7 +1,9 @@
 #include "CarWheel.h"
 
-CarWheel::CarWheel(string type, Geometry geometry, Material material, RealValue mass) : GameObject(type, geometry, material, mass)
+CarWheel::CarWheel(string type, Geometry geometry, Material material, RealValue mass, GameObject * parent, XMFLOAT3 posOnCar) : GameObject(type, geometry, material, mass)
 {
+	GameObject::SetParent(parent);
+	_model->GetTransform()->SetPosition(posOnCar);
 }
 
 CarWheel::~CarWheel()

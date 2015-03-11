@@ -50,6 +50,9 @@ void ParticleModel::UpdateNetForce()
 void ParticleModel::AddToNetForce(XMFLOAT3 netForce)
 {
 	_netForce = XMFLOAT3Methods::Addition(_netForce, netForce);
+
+	if (_netForce.y != 0.0f)
+		int i = 0;
 }
 
 void ParticleModel::UpdateAccel()

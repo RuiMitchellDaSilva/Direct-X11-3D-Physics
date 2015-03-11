@@ -5,6 +5,8 @@
 
 #include "GameObject.h"
 
+#include "CarWheel.h"
+
 using namespace DirectX;
 using namespace std;
 
@@ -18,6 +20,8 @@ private:
 	float _roadWheelFrictionCoeff;
 	float _engineThrust;
 	double _steeringAngle;	// Front wheels only
+
+	CarWheel * _wheel[4];
 
 public:
 	ControlCar(string type, Geometry geometry, Material material, RealValue mass);

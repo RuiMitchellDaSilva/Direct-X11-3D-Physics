@@ -34,6 +34,7 @@
 #include "ControllableObject.h"
 #include "ForceRegistry.h"
 #include "ParticleContact.h"
+#include "ParticleContactResolver.h"
 
 using namespace DirectX;
 
@@ -137,15 +138,15 @@ private:
 	DWORD presetFrameInterval;
 
 	//	Forces
-	ForceRegistry * forceRegister;
+	ForceRegistry * _forceRegister;
 
-	IForceGenerator * gravityForce;
-	IForceGenerator * airDragForce;
-	IForceGenerator * reactionForce;
+	IForceGenerator * _gravityForce;
+	IForceGenerator * _airDragForce;
+	IForceGenerator * _reactionForce;
 
 
 	//	Collisions
-	ParticleContact * contact;
+	ParticleContact * _contact;
 
 
 private:
