@@ -17,8 +17,29 @@ void ForceRegistry::Add(ParticleModel * model, IForceGenerator * fg)
 
 void ForceRegistry::Remove(ParticleModel * model, IForceGenerator * fg)
 {
-
+	for (int i = 0; i < mRegistrations.size(); i++)
+	{
+		if (mRegistrations.at(i).model == model)
+			if (mRegistrations.at(i).fg == fg)
+				{
+					mRegistrations.erase(mRegistrations.begin() + i);
+					i--;
+				}
+	}
 }
+
+bool ForceRegistry::Find(ParticleModel * model, IForceGenerator * fg)
+{
+	for (int i = 0; i < mRegistrations.size(); i++)
+	{
+		if (mRegistrations.at(i).model == model)
+			if (mRegistrations.at(i).fg == fg)
+			{
+				return true;
+			}
+	}
+}
+
 
 void ForceRegistry::Clear()
 {

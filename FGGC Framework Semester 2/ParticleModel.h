@@ -37,6 +37,8 @@ private:
 
 	RealValue _damping = 1.0f;
 
+	bool _mResting = false;
+
 
 
 public:
@@ -62,6 +64,9 @@ public:
 	void SetNetForce(XMFLOAT3 netForce) { _netForce = netForce; }
 	void AddToNetForce(XMFLOAT3 netForce);
 	void UpdateNetForce();
+
+	void SetResting(bool isResting) { _mResting = isResting; }
+	bool GetResting() { return _mResting; }
 
 	void SetRigid(bool isObjectRigid) { _rigid = isObjectRigid; }
 	bool IsRigid() { return _rigid; }

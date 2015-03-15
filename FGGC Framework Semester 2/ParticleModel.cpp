@@ -14,25 +14,26 @@ ParticleModel::~ParticleModel(void)
 
 void ParticleModel::MoveConstAccel(float t)
 {
+	if (XMFLOAT3Methods::VectorMagnitude(_acceleration) < 0.000001f)
+		_acceleration = { 0.0f, 0.0f, 0.0f };
+
+	if (XMFLOAT3Methods::VectorMagnitude(_velocity) < 0.000001f)
+		_velocity = { 0.0f, 0.0f, 0.0f };
+
 	// Update world position of object by adding displacement to
 	// previously calculated position ( P = P + (V * T) + (0.5 * A * T^2))
 	_transform->SetPosition(_transform->GetPosition().x + (_velocity.x * t) + (0.5f * _acceleration.x  * t * t),
-							_transform->GetPosition().y + (_velocity.y * t) + (0.5f * _acceleration.y  * t * t),
-							_transform->GetPosition().z + (_velocity.z * t) + (0.5f * _acceleration.z  * t * t));
+		_transform->GetPosition().y + (_velocity.y * t) + (0.5f * _acceleration.y  * t * t),
+		_transform->GetPosition().z + (_velocity.z * t) + (0.5f * _acceleration.z  * t * t));
 
 	// Update velocity of object by adding change relative to previously
 	// calculated velocity ( V = V + (A * T))
 	_velocity = XMFLOAT3Methods::Addition(_velocity, XMFLOAT3Methods::MultiplicationByValue(_acceleration, t));
-
-	// Dampen the object (replace with drag force or not.
-	_velocity = XMFLOAT3Methods::MultiplicationByValue(_velocity, _damping);
 }
 
 void ParticleModel::Update(float t)
 {
 	_collisionRadius = 0.5 + XMFLOAT3Methods::VectorMagnitude(_velocity);
-
-	//_damping = pow(0.999, t);
 
 	UpdateAccel();
 
@@ -51,7 +52,7 @@ void ParticleModel::AddToNetForce(XMFLOAT3 netForce)
 {
 	_netForce = XMFLOAT3Methods::Addition(_netForce, netForce);
 
-	if (_netForce.y != 0.0f)
+	if (_netForce.y == 0.0f)
 		int i = 0;
 }
 

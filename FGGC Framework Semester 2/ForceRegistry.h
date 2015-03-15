@@ -30,6 +30,7 @@ public:
 
 	void Add(ParticleModel * model, IForceGenerator * fg);
 	void Remove(ParticleModel * model, IForceGenerator * fg);
+	bool Find(ParticleModel * model, IForceGenerator * fg);
 	void Clear();
 	void CalculateForces(RealValue t);
 };

@@ -51,10 +51,10 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 	RealValue newSeperateVelocity = -seperatingVelocity * mRestitution;
 
 	// This is for the case that the object(s) are resting.
-	XMFLOAT3 accCausedVelocity = mModel[0]->GetAcceleration();
+	XMFLOAT3 accCausedVelocity = XMFLOAT3Methods::MultiplicationByValue(mModel[0]->GetNetForce(), mModel[0]->GetInverseMass());
 
 	if (mModel[1])
-		accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, mModel[1]->GetAcceleration());
+		accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, XMFLOAT3Methods::MultiplicationByValue(mModel[1]->GetNetForce(), mModel[1]->GetInverseMass()));
 
 	// MAY NEED TO CHANGE Pg 128
 	RealValue accCausedSepVelocity = XMFLOAT3Methods::ScalarProduct(accCausedVelocity, mContactNormal) * t;
@@ -63,8 +63,15 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 	{
 		newSeperateVelocity += mRestitution * accCausedSepVelocity;
 
-		if (newSeperateVelocity < 0.0f)	
+		if (newSeperateVelocity < 0.0f)
+		{
 			newSeperateVelocity = 0.0f;
+			mModel[0]->SetResting(true);
+		}		
+		else
+		{
+			mModel[0]->SetResting(false);
+		}
 	}
 
 	RealValue deltaVelocity = newSeperateVelocity - seperatingVelocity;
@@ -81,6 +88,8 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 	RealValue impulse = deltaVelocity / totalInverseMass;
 
 	XMFLOAT3 impulsePerIMass = XMFLOAT3Methods::MultiplicationByValue(mContactNormal, impulse);
+
+
 
 	// Apply impulses
 	mModel[0]->SetVelocity(XMFLOAT3Methods::Addition(mModel[0]->GetVelocity(),
