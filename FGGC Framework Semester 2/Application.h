@@ -144,7 +144,6 @@ private:
 	IForceGenerator * _airDragForce;
 	IForceGenerator * _reactionForce;
 
-
 	//	Collisions
 	ParticleContact * _contact;
 
@@ -158,7 +157,13 @@ private:
 	HRESULT InitVertexBuffer();
 	HRESULT InitIndexBuffer();
 
+	// Camera
+	void HandleCamera(float t);
+
+	// Game Object
+	void HandleGameObjects(float t);
 	void MoveObject(int objectNumber, XMFLOAT3 translation);
+	void CollisionDetection(float t);
 
 public:
 	Application();

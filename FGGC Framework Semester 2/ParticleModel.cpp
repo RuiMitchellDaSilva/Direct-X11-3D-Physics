@@ -14,10 +14,10 @@ ParticleModel::~ParticleModel(void)
 
 void ParticleModel::MoveConstAccel(float t)
 {
-	if (XMFLOAT3Methods::VectorMagnitude(_acceleration) < 0.000001f)
+	if (XMFLOAT3Methods::VectorMagnitude(_acceleration) < 0.001f)
 		_acceleration = { 0.0f, 0.0f, 0.0f };
 
-	if (XMFLOAT3Methods::VectorMagnitude(_velocity) < 0.000001f)
+	if (XMFLOAT3Methods::VectorMagnitude(_velocity) < 0.001f)
 		_velocity = { 0.0f, 0.0f, 0.0f };
 
 	// Update world position of object by adding displacement to

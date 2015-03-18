@@ -28,6 +28,8 @@ private:
 	bool _collidability = true;
 	float _collisionRadius;
 
+	// Determing rebounds
+	XMFLOAT3 _contactNormal;
 
 	// std::real
 	double _linearDamping;
@@ -67,6 +69,8 @@ public:
 
 	void SetResting(bool isResting) { _mResting = isResting; }
 	bool GetResting() { return _mResting; }
+	XMFLOAT3 GetContactNormal(){ return _contactNormal; }
+	void SetContactNormal(XMFLOAT3 contactNormal){ _contactNormal = contactNormal; }
 
 	void SetRigid(bool isObjectRigid) { _rigid = isObjectRigid; }
 	bool IsRigid() { return _rigid; }

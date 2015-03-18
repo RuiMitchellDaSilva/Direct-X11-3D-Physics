@@ -10,34 +10,36 @@ ControllableObject::~ControllableObject()
 
 void ControllableObject::Update(float t)
 {
+	GameObject::GetParticleModel()->AddToNetForce(_delayedMovement);
 	GameObject::Update(t);
+	_delayedMovement = { 0.0f, 0.0f, 0.0f };
 }
 
 void ControllableObject::MoveObject(Movement moveCommand)
 {
 	if (moveCommand == UP)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(0.0f, 0.1f, 0.0f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(0.0f, 0.1f, 0.0f));
 	}
 	else if (moveCommand == DOWN)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(0.0f, -0.1f, 0.0f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(0.0f, -0.1f, 0.0f));
 	}
 	else if (moveCommand == FORWARD)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(0.0f, 0.0f, 0.1f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(0.0f, 0.0f, 0.1f));
 	}
 	else if (moveCommand == BACKWARD)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(0.0f, 0.0f, -0.1f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(0.0f, 0.0f, -0.1f));
 	}
 	else if (moveCommand == LEFT)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(-0.1f, 0.0f, 0.0f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(-0.1f, 0.0f, 0.0f));
 	}
 	else if (moveCommand == RIGHT)
 	{
-		GameObject::GetParticleModel()->AddToNetForce(XMFLOAT3(0.1f, 0.0f, 0.0f));
+		_delayedMovement = XMFLOAT3Methods::Addition(_delayedMovement, XMFLOAT3(0.1f, 0.0f, 0.0f));
 	}
 }
 

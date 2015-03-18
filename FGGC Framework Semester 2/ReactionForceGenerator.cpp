@@ -14,10 +14,11 @@ ReactionForceGenerator::~ReactionForceGenerator()
 void ReactionForceGenerator::CalculateForce(ParticleModel* model, RealValue t)
 {
 	XMFLOAT3 force = { 0.0f, 0.0f, 0.0f };
-	//force = ReactionForce(model->GetMass(), model->GetAcceleration());
+
+
+
 	model->SetVelocity(CalcVelocityChange(model->GetVelocity(), model->GetMass(), force));
 
-	//return SlidingForce(mass, XM_PI / 2, 0.61);
 }
 
 XMFLOAT3 ReactionForceGenerator::ReactionForce(float mass, XMFLOAT3 acceleration)

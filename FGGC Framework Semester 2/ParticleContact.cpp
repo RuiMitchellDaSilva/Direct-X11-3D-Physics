@@ -21,6 +21,8 @@ void ParticleContact::SetModels(ParticleModel * model1, ParticleModel * model2, 
 	else
 		mContactNormal = XMFLOAT3Methods::Normalize(XMFLOAT3(0.0f, 1.0f, 0.0f));
 
+	mModel[0]->SetContactNormal(mContactNormal);
+
 	mPenetration = penetration;
 }
 
@@ -54,9 +56,11 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 	XMFLOAT3 accCausedVelocity = XMFLOAT3Methods::MultiplicationByValue(mModel[0]->GetNetForce(), mModel[0]->GetInverseMass());
 
 	if (mModel[1])
-		accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, XMFLOAT3Methods::MultiplicationByValue(mModel[1]->GetNetForce(), mModel[1]->GetInverseMass()));
+	{
+		if (!mModel[1]->GetResting())
+			accCausedVelocity = XMFLOAT3Methods::Subtraction(accCausedVelocity, XMFLOAT3Methods::MultiplicationByValue(mModel[1]->GetNetForce(), mModel[1]->GetInverseMass()));
+	}
 
-	// MAY NEED TO CHANGE Pg 128
 	RealValue accCausedSepVelocity = XMFLOAT3Methods::ScalarProduct(accCausedVelocity, mContactNormal) * t;
 
 	if (accCausedSepVelocity < 0.0f)
@@ -67,13 +71,13 @@ void ParticleContact::ResolveVelocity(RealValue t) // This works against movable
 		{
 			newSeperateVelocity = 0.0f;
 			mModel[0]->SetResting(true);
-		}		
+		}
 		else
 		{
 			mModel[0]->SetResting(false);
 		}
 	}
-
+	
 	RealValue deltaVelocity = newSeperateVelocity - seperatingVelocity;
 
 	RealValue totalInverseMass = mModel[0]->GetInverseMass();

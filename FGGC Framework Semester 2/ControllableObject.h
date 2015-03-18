@@ -22,7 +22,7 @@ enum Movement
 class ControllableObject : public GameObject
 {
 private:
-
+	XMFLOAT3 _delayedMovement = {0.0f, 0.0f, 0.0f};
 public:
 	ControllableObject(string type, Geometry geometry, Material material, RealValue mass);
 	~ControllableObject();

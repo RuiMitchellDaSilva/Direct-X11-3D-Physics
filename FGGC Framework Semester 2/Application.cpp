@@ -23,6 +23,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 bool Application::HandleKeyboard(MSG msg)
 {
 	XMFLOAT3 cameraPosition = _camera->GetPosition();
@@ -79,6 +81,8 @@ bool Application::HandleKeyboard(MSG msg)
 	return false;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 Application::Application()
 {
 	_hInst = nullptr;
@@ -101,10 +105,14 @@ Application::Application()
 	presetFrameInterval = 0;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 Application::~Application()
 {
 	Cleanup();
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
@@ -179,20 +187,25 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	_gameObjects.push_back(gameObject);
 	
-	for (auto i = 0; i < 5; i++)
+	for (auto i = 0; i < 0; i++)
 	{
 		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial, 10.0f);
 	
 		gameObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 9.0f, 10.0f);
 		gameObject->GetParticleModel()->SetRigid(false);
-	
 		gameObject->GetAppearence()->SetTextureRV(_pTextureRV);
 	
 		_gameObjects.push_back(gameObject);
 	}
 
+	_controlObject = new ControllableObject("Control Cube", cubeGeometry, noSpecMaterial, 10.0f);
+	_controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
+	_controlObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f, 2.0f, 10.0f);
+	_controlObject->GetParticleModel()->SetRigid(true);
+	_controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
 
+	_gameObjects.push_back(_controlObject);
 
 	// Create and apply forces (gravity)
 	_contact = new ParticleContact();
@@ -208,18 +221,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_forceRegister->Add(gameObject->GetParticleModel(), _airDragForce);
 	}
 
-	_controlObject = new ControllableObject("Control Cube", cubeGeometry, noSpecMaterial, 0.0f);
-	_controlObject->GetParticleModel()->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-	_controlObject->GetParticleModel()->GetTransform()->SetPosition(-4.0f, 2.0f, 10.0f);
-	_controlObject->GetParticleModel()->SetRigid(true);
-	_controlObject->GetAppearence()->SetTextureRV(_pTextureRV);
-	_gameObjects.push_back(_controlObject);
-
-
-
-
 	return S_OK;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 HRESULT Application::InitShadersAndInputLayout()
 {
@@ -297,6 +302,8 @@ HRESULT Application::InitShadersAndInputLayout()
 
 	return hr;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 HRESULT Application::InitVertexBuffer()
 {
@@ -378,6 +385,8 @@ HRESULT Application::InitVertexBuffer()
 	return S_OK;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 HRESULT Application::InitIndexBuffer()
 {
 	HRESULT hr;
@@ -443,6 +452,8 @@ HRESULT Application::InitIndexBuffer()
 	return S_OK;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
     // Register class
@@ -477,6 +488,8 @@ HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
     return S_OK;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 HRESULT Application::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
 {
     HRESULT hr = S_OK;
@@ -508,6 +521,8 @@ HRESULT Application::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoin
 
     return S_OK;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 HRESULT Application::InitDevice()
 {
@@ -657,6 +672,8 @@ HRESULT Application::InitDevice()
     return S_OK;
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 void Application::Cleanup()
 {
     if (_pImmediateContext) _pImmediateContext->ClearState();
@@ -705,12 +722,16 @@ void Application::Cleanup()
 	}
 }
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 void Application::MoveObject(int objectNumber, XMFLOAT3 translation)
 {
 	XMFLOAT3 position = _gameObjects[objectNumber]->GetParticleModel()->GetTransform()->GetPosition();
 	position.x += translation.x; position.y += translation.y; position.z += translation.z;
 	_gameObjects[objectNumber]->GetParticleModel()->GetTransform()->SetPosition(position);
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 void Application::GameLoopDelay(DWORD frameStartTime)
 {
@@ -723,6 +744,8 @@ void Application::GameLoopDelay(DWORD frameStartTime)
 
 	presetFrameInterval = frameProcessingTime;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 void Application::Update()
 {
@@ -766,8 +789,17 @@ void Application::Update()
 		MoveObject(5, { 0.0f, 0.1f, 0.0f });
 	}
 
+	HandleCamera(timeSinceStart);
 
-	// Update camera
+	HandleGameObjects(timeSinceStart);
+		
+	GameLoopDelay(dwTimeCur);
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+void Application::HandleCamera(float t)
+{
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
 
 	float x = _cameraOrbitRadius * cos(angleAroundZ);
@@ -779,14 +811,36 @@ void Application::Update()
 
 	_camera->SetPosition(cameraPos);
 	_camera->Update();
+}
 
-	_forceRegister->CalculateForces(timeSinceStart);
+//-------------------------------------------------------------------------------------------------------------------------
 
-	// Update objects
+void Application::HandleGameObjects(float t)
+{
+	_forceRegister->CalculateForces(t);
+
+	// Resolve Collisions
+	CollisionDetection(t);
+
+	// Update all GameObjects
 	for (auto gameObject : _gameObjects)
-	{		
-		vector<ParticleContact> contacts;
+	{
+		if (gameObject->GetParticleModel()->GetResting())
+			gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(
+			XMFLOAT3Methods::Multiplication(gameObject->GetParticleModel()->GetNetForce(), gameObject->GetParticleModel()->GetContactNormal()), -1));
 
+		gameObject->Update(t);
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+void Application::CollisionDetection(float t)
+{
+	vector<ParticleContact> contacts;
+
+	for (auto gameObject : _gameObjects)
+	{
 		// Check collision against other objects
 		if (!gameObject->GetParticleModel()->HasInfiniteMass())
 		{
@@ -801,36 +855,15 @@ void Application::Update()
 
 					float combinedCollRadius = collidableObject->GetParticleModel()->GetCollisionRadius() + gameObject->GetParticleModel()->GetCollisionRadius();
 
-					// FIX COLLISION GOING OUT OF COLLISION
-
-
-
 					// If distance between these objects is less than their collision radius, then an interception has occured.
 					if (distanceTo < combinedCollRadius)
 					{
-						if (!gameObject->GetParticleModel()->GetResting())
-						{
-							RealValue penetration = combinedCollRadius - XMFLOAT3Methods::VectorMagnitude(vectorTo);
 
-							ParticleContact contact;
-							contact.SetModels(gameObject->GetParticleModel(), collidableObject->GetParticleModel(), penetration);
-							contacts.push_back(contact);
+						RealValue penetration = combinedCollRadius - XMFLOAT3Methods::VectorMagnitude(vectorTo);
 
-							// Check if the object has infinite mass (WILL NEED TO CHANGE WHEN COLLISION HAS EVOLVED)
-							//if (!collidableObject->GetParticleModel()->HasInfiniteMass())
-							//{
-							//	_contact->SetModels(gameObject->GetParticleModel(), collidableObject->GetParticleModel(), penetration);
-							//}		
-							//else
-							//{
-							//	_contact->SetModels(gameObject->GetParticleModel(), NULL, penetration);
-							//}
-
-							//_contact->Resolve(timeSinceStart);
-
-							//collidableObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(collidableObject->GetParticleModel()->GetNetForce(), -1));
-					
-						}
+						ParticleContact contact;
+						contact.SetModels(gameObject->GetParticleModel(), collidableObject->GetParticleModel(), penetration);
+						contacts.push_back(contact);
 					}
 				}
 			}
@@ -840,30 +873,18 @@ void Application::Update()
 		{
 			RealValue penetration = 0.5 - gameObject->GetParticleModel()->GetTransform()->GetPosition().y;
 
-			//_contact->SetModels(gameObject->GetParticleModel(), NULL, penetration);
-			//_contact->Resolve(timeSinceStart);
-
 			ParticleContact contact;
 			contact.SetModels(gameObject->GetParticleModel(), NULL, penetration);
-			contacts.push_back(contact);
-
-			// CHANGE ONCE YOU GOT "REMOVE" METHOD IN FORCEREGISTRY
-			// OR ADD TO CONTACT CLASS		
+			contacts.push_back(contact);	
 		}
 
-		ParticleContactResolver resolver(contacts.size() * 1000);
-		resolver.ResolveContacts(contacts, contacts.size(), timeSinceStart);
+	}
 
-		// Update all GameObjects
-
-		if (gameObject->GetParticleModel()->GetResting())
-			gameObject->GetParticleModel()->AddToNetForce(XMFLOAT3Methods::MultiplicationByValue(gameObject->GetParticleModel()->GetNetForce(), -1));
-			
-		gameObject->Update(timeSinceStart);
-	}	
-		
-	GameLoopDelay(dwTimeCur);
+	ParticleContactResolver resolver(contacts.size() * 1000);
+	resolver.ResolveContacts(contacts, contacts.size(), t);
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
 
 void Application::Draw()
 {
@@ -940,3 +961,5 @@ void Application::Draw()
     //
     _pSwapChain->Present(0, 0);
 }
+
+//-------------------------------------------------------------------------------------------------------------------------

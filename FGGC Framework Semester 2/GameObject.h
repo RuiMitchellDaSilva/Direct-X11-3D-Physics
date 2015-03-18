@@ -29,7 +29,7 @@ public:
 
 	void SetParent(GameObject * parent) { _parent = parent; }
 
-	void Update(float t);
+	void virtual Update(float t);
 
 };
 
