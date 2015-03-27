@@ -14,11 +14,9 @@ ParticleModel::~ParticleModel(void)
 
 void ParticleModel::MoveConstAccel(float t)
 {
-	if (XMFLOAT3Methods::VectorMagnitude(_acceleration) < 0.001f)
-		_acceleration = { 0.0f, 0.0f, 0.0f };
+	_acceleration = XMFLOAT3Methods::ComponentBoundary(_acceleration, 1.0f * pow(10, -7), 0.2f);
+	_velocity = XMFLOAT3Methods::ComponentBoundary(_velocity, 1.0f * pow(10, -7), 0.2f);
 
-	if (XMFLOAT3Methods::VectorMagnitude(_velocity) < 0.001f)
-		_velocity = { 0.0f, 0.0f, 0.0f };
 
 	// Update world position of object by adding displacement to
 	// previously calculated position ( P = P + (V * T) + (0.5 * A * T^2))
@@ -51,15 +49,14 @@ void ParticleModel::UpdateNetForce()
 void ParticleModel::AddToNetForce(XMFLOAT3 netForce)
 {
 	_netForce = XMFLOAT3Methods::Addition(_netForce, netForce);
-
-	if (_netForce.y == 0.0f)
-		int i = 0;
 }
 
 void ParticleModel::UpdateAccel()
 {
 	if (_inverseMass <= 0.0f)
 		return;
+
+	_netForce = XMFLOAT3Methods::ComponentBoundary(_netForce, 1.0f * pow(10, -7), 0.2f);
 
 	// Calculate acceleration from the net external force
 	_acceleration = XMFLOAT3Methods::MultiplicationByValue(_netForce, _inverseMass);

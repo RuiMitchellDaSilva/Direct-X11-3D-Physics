@@ -25,6 +25,10 @@ namespace XMFLOAT3Methods
 	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second);
 	RealValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
 
+	XMFLOAT3 ComponentBoundary(XMFLOAT3 vector, float minValue, float maxValue);	// Keep component values between minimun and maximun values
+	XMFLOAT3 MinComponentValue(XMFLOAT3 vector, float value);
+	XMFLOAT3 MaxComponentValue(XMFLOAT3 vector, float value);
+
 	XMFLOAT3 Normalize(XMFLOAT3 vector);
 
 	XMFLOAT3 Invert(XMFLOAT3 vector);

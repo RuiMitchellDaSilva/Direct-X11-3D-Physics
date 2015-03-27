@@ -127,4 +127,40 @@ namespace XMFLOAT3Methods
 
 		return DivisionByValue(vector, magnitude);
 	}
+
+	XMFLOAT3 ComponentBoundary(XMFLOAT3 vector, float minValue, float maxValue)
+	{
+		vector = MinComponentValue(vector, minValue);
+		vector = MaxComponentValue(vector, maxValue);
+
+		return vector;
+	}
+
+	XMFLOAT3 MinComponentValue(XMFLOAT3 vector, float value)
+	{
+		if (abs(vector.x) < value)
+			vector.x = 0.0f;
+
+		if (abs(vector.y) < value)
+			vector.y = 0.0f;
+
+		if (abs(vector.z) < value)
+			vector.z = 0.0f;
+
+		return vector;
+	}
+
+	XMFLOAT3 MaxComponentValue(XMFLOAT3 vector, float value)
+	{
+		if (abs(vector.x) > value)
+			vector.x = value;
+
+		if (abs(vector.y) > value)
+			vector.y = value;
+
+		if (abs(vector.z) > value)
+			vector.z = value;
+
+		return vector;
+	}
 }
