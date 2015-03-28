@@ -95,6 +95,9 @@
     <ClInclude Include="ThrustForceGenerator.h">
       <Filter>Header Files\Forces</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="ThrustForceGenerator.cpp">
       <Filter>Source Files\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,8 @@ XMFLOAT3 FluidDragForceGenerator::DragLamFlow(XMFLOAT3 velocity, float coeff)
 {
 	XMFLOAT3 drag;
 
+	// Force = 0.5 * fluid density * velocity^2 * coeff * surface area of affection
+
 	drag.x = -coeff * velocity.x;
 	drag.y = -coeff * velocity.y;
 	drag.z = -coeff * velocity.z;

@@ -22,8 +22,9 @@ namespace XMFLOAT3Methods
 
 	RealValue ScalarProduct(XMFLOAT3 first, XMFLOAT3 second);	// AKA Dot/Inner Product
 	RealValue ScalarAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
-	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second);
+	XMFLOAT3 VectorProduct(XMFLOAT3 first, XMFLOAT3 second);	// AKA Cross product
 	RealValue VectorAngleBetweenVectors(XMFLOAT3 first, XMFLOAT3 second);
+	XMFLOAT3 CrossProduct(XMFLOAT3 first, XMFLOAT3 second);
 
 	XMFLOAT3 ComponentBoundary(XMFLOAT3 vector, float minValue, float maxValue);	// Keep component values between minimun and maximun values
 	XMFLOAT3 MinComponentValue(XMFLOAT3 vector, float value);

@@ -1,1 +1,10 @@
-﻿  DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\Further-Games-and-Graphics-Concepts\2nd Semester\Direct-X11-3D-Physics\FGGC Framework Semester 2\Debug\DX11 Framework.exe
+﻿  FluidDragForceGenerator.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\particlemodel.h(65): warning C4244: 'return' : conversion from 'const RealValue' to 'float', possible loss of data
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\fluiddragforcegenerator.cpp(14): warning C4100: 't' : unreferenced formal parameter
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\fluiddragforcegenerator.cpp(20): warning C4100: 'angle' : unreferenced formal parameter
+  XMFLOAT3methods.cpp
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\xmfloat3methods.cpp(106): warning C4100: 'second' : unreferenced formal parameter
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\xmfloat3methods.cpp(106): warning C4100: 'first' : unreferenced formal parameter
+c:\users\mizukami\desktop\further-games-and-graphics-concepts\2nd semester\direct-x11-3d-physics\fggc framework semester 2\xmfloat3methods.cpp(128): warning C4244: 'argument' : conversion from 'RealValue' to 'float', possible loss of data
+  Generating Code...
+  DX11 Framework.vcxproj -> C:\Users\mizukami\Desktop\Further-Games-and-Graphics-Concepts\2nd Semester\Direct-X11-3D-Physics\FGGC Framework Semester 2\Debug\DX11 Framework.exe

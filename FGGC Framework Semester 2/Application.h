@@ -110,6 +110,8 @@ private:
 
 	Light basicLight;
 
+	float _previousTime = 0.0f;
+
 	vector<GameObject *> _gameObjects;
 
 	ControllableObject * _controlObject;

@@ -53,7 +53,8 @@ bool Application::HandleKeyboard(MSG msg)
 
 	
 	case 0x57: // W key
-		_controlObject->MoveObject(FORWARD);
+		//_controlObject->MoveObject(FORWARD);
+		_controlObject->GetParticleModel()->SetAngularVelocity(XMFLOAT3(0.0f, 0.0f, 0.05f));
 		return true;
 		break;
 	
@@ -752,6 +753,7 @@ void Application::Update()
 	// Update our time
 	static float timeSinceStart = 0.0f;
 	static DWORD dwTimeStart = 0;
+	static float timeStep = 0.0f;
 
 	DWORD dwTimeCur = GetTickCount();
 
@@ -759,6 +761,11 @@ void Application::Update()
 		dwTimeStart = dwTimeCur;
 
 	timeSinceStart = (dwTimeCur - dwTimeStart) / 1000.0f;
+
+	timeStep = (timeSinceStart - _previousTime) * 50;
+
+	if (timeStep < 0)
+		timeStep = 0;
 
 	// Check if time is running
 	//assert(timeSinceStart > 0.0f);
@@ -789,11 +796,13 @@ void Application::Update()
 		MoveObject(5, { 0.0f, 0.1f, 0.0f });
 	}
 
-	HandleCamera(timeSinceStart);
+	HandleCamera(timeStep);
 
-	HandleGameObjects(timeSinceStart);
+	HandleGameObjects(timeStep);
 		
-	GameLoopDelay(dwTimeCur);
+	_previousTime = timeSinceStart;
+
+//	GameLoopDelay(dwTimeCur);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------

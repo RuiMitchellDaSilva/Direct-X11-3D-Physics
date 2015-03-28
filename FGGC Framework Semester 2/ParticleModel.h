@@ -32,16 +32,21 @@ private:
 	XMFLOAT3 _contactNormal;
 
 	// std::real
-	double _linearDamping;
+	//double _linearDamping;
 	//Quaternion _orientation;
-	XMFLOAT3 _rotation;
+//	XMFLOAT3 _rotation;
 	//Matrix4 _transformMatrix;
 
-	RealValue _damping = 1.0f;
+	//RealValue _damping = 1.0f;
+
+	XMFLOAT3 _rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 _angularVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 _angularAcceleration;
+	XMFLOAT3 _netTorque;
+	XMFLOAT3X3 _inertiaTensor;
+	XMFLOAT3X3 _inverseInertiaTensor;
 
 	bool _mResting = false;
-
-
 
 public:
 	ParticleModel(Transform* transform, XMFLOAT3 velocity, XMFLOAT3 acceleration, float mass, XMFLOAT3 netForce);
@@ -79,6 +84,15 @@ public:
 	float GetCollisionRadius() { return _collisionRadius; }
 	void SetCollidability(bool collidability){ _collidability = collidability; }
 	bool GetCollidability(){ return _collidability; }
+
+
+	void SetAngularVelocity(XMFLOAT3 angularVelocity) { _angularVelocity = angularVelocity; }
+	void ConstRotation(float t);
+	void SetInertiaTensor(XMFLOAT3 inertiaTensor);
+
+	void AddForceAtPoint(XMFLOAT3 force, XMFLOAT3 point);
+	void AddForceAtBodyPoint(XMFLOAT3 force, XMFLOAT3 point);
+
 
 	void AngularVelocity();
 	//string GetType() const { return _type; }

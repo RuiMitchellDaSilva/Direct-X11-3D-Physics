@@ -153,13 +153,22 @@ namespace XMFLOAT3Methods
 	XMFLOAT3 MaxComponentValue(XMFLOAT3 vector, float value)
 	{
 		if (abs(vector.x) > value)
-			vector.x = value;
+			if (vector.x > 0)
+				vector.x = value;
+			else
+				vector.x = -value;
 
 		if (abs(vector.y) > value)
-			vector.y = value;
+			if (vector.y > 0)
+				vector.y = value;
+			else	   
+				vector.y = -value;
 
 		if (abs(vector.z) > value)
-			vector.z = value;
+			if (vector.z > 0)
+				vector.z = value;
+			else	   
+				vector.z = -value;
 
 		return vector;
 	}
